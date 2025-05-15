@@ -8,13 +8,12 @@ import java.awt.event.ActionListener;
 public class SwingTest {
     public static void main(String[] args) {
         // Create a new JFrame (main window)
-        JFrame frame = new JFrame("Swing Test");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
+        JFrame frame = new TitleScreen();
+      
 
         // Create a JPanel to hold components
         JPanel panel = new JPanel();
-        frame.add(panel);
+        frame.add(new TitleCanvas());
 
         // Add a label and a button to the panel
         JLabel label = new JLabel("Hello, Swing!");
