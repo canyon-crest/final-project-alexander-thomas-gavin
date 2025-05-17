@@ -41,7 +41,7 @@ public class Button{
         double mouseX = loc.getX();
         double mouseY = loc.getY();
         if(mouseX <= x + width && mouseX >= x && mouseY <= y + height && mouseY >= y){
-            System.out.println("aaa");
+            System.exit(0);
         }
     }
 

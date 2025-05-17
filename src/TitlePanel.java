@@ -128,7 +128,7 @@ public class TitlePanel extends GamePanel {
         g.drawImage(title,titleX,titleY,null);
         g.drawImage(start.getImage(),0,0,null);
         g.drawRect(x,y,50,50);
-        
+
 
 
 
