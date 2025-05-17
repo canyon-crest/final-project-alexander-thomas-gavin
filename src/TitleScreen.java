@@ -1,8 +1,8 @@
 import javax.swing.*;
 
 public class TitleScreen extends JFrame {
-	public final int WIDTH = 1920;
-	public final int HEIGHT = 1080;
+	public static final int WIDTH = 1920;
+	public static final int HEIGHT = 1080;
 	public TitleScreen() {
 		super("Arhangel");
 		setSize(WIDTH,HEIGHT);
