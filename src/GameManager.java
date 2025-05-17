@@ -9,7 +9,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	public void startGame() {
 
 		JFrame frame = new TitleScreen();
-		title = new TitlePanel(this);
+		title = new TitlePanel(this, frame);
 		frame.add(title);
 		frame.setVisible(true);
 		timer = new Timer(17,this);
@@ -57,7 +57,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
+		title.click(e.getX(),e.getY());
 	}
 
 	@Override

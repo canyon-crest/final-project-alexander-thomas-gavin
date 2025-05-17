@@ -12,20 +12,20 @@ public class TitlePanel extends GamePanel {
     final String NAME_IMAGE_PATH = "images/titleName.png";
     final String START_IMAGE_PATH = "images/start.png";
     final String SELECTED_START_IMAGE_PATH = "images/selectedStart.png";
-    BufferedImage background;
-    BufferedImage stars;
-    BufferedImage title;
-    Button start;
-    int x;
-    int starX;
-    int titleX;
-    int y;
-    int starY;
-    int titleY;
-    double oscilation;
+    private BufferedImage background;
+    private BufferedImage stars;
+    private BufferedImage title;
+    private Button start;
+    private int x;
+    private int starX;
+    private int titleX;
+    private int y;
+    private int starY;
+    private int titleY;
+    private double oscilation;
 
-    public TitlePanel(GameManager manager){
-        super(manager);
+    public TitlePanel(GameManager manager, JFrame frame){
+        super(manager, frame);
         background = null;
         stars = null;
         title = null;
@@ -64,11 +64,11 @@ public class TitlePanel extends GamePanel {
             System.out.println("Loading title failed");
         }
         try{
-            start = new Button(581,556,803,119,ImageIO.read(TitlePanel.class.getResource(START_IMAGE_PATH))
-                    ,ImageIO.read(TitlePanel.class.getResource(SELECTED_START_IMAGE_PATH)));
+            start = new Button(571,555,820,126,ImageIO.read(TitlePanel.class.getResource(START_IMAGE_PATH))
+                    ,ImageIO.read(TitlePanel.class.getResource(SELECTED_START_IMAGE_PATH)), getJFrame());
         }
         catch(IOException e) {
-            start = new Button(581,556,803,119,null,null);
+            start = new Button(571,555,820,126,null,null, getJFrame());
             System.out.println("Loading start button failed");
         }
     }
@@ -76,11 +76,16 @@ public class TitlePanel extends GamePanel {
         super.tick(keys);
 
     }
-    public void click(){
-
+    public void click(int x, int y){
+        start.click();
     }
     public void update(ArrayList<Integer> keys){
-        Point location = MouseInfo.getPointerInfo().getLocation();
+
+        Point location = getJFrame().getMousePosition();
+        if(location == null){
+            location = new Point(0,0);
+        }
+
         if(isFocusOwner()){
 
             starX = (int)(-30*(Math.atan(((double)TitleScreen.WIDTH/2-location.getX())/((double)TitleScreen.WIDTH/4))/Math.PI));
@@ -123,6 +128,9 @@ public class TitlePanel extends GamePanel {
         g.drawImage(title,titleX,titleY,null);
         g.drawImage(start.getImage(),0,0,null);
         g.drawRect(x,y,50,50);
+        
+
+
 
 
     }
