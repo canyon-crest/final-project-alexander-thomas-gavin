@@ -7,14 +7,16 @@ public class Entity {
 	private double[] velocity;
 	private	int width;
 	private int height;
+	private int damages;
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
-	public Entity(double xLocation, double yLocation, double friction, int width, int height){
+	public Entity(double xLocation, double yLocation, double friction, int width, int height, int damages){
 		this.xLocation = xLocation;
 		this.yLocation = yLocation;
 		this.friction = friction;
 		this.width = width;
 		this.height = height;
 		this.velocity = new double[]{0,0};
+		this.damages = damages;
 		entities.add(this);
 	}
 	
