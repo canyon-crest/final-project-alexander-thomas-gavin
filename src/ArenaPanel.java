@@ -5,7 +5,8 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class ArenaPanel extends GamePanel {
-    Entity player = new Entity(100,100,0.3,30,30,0);
+	public static int SCALE = TitleScreen.SCALE;
+    private Entity player = new Entity(100/SCALE,100/SCALE,0.3*SCALE,30/SCALE,30/SCALE,0);
     public ArenaPanel(GameManager manager, JFrame frame){
         super(manager, frame);
         setBackground(Color.cyan);
@@ -67,12 +68,12 @@ public class ArenaPanel extends GamePanel {
 
 
         if(up||down||left||right) {
-            player.setVelocity(direction, 4);
+            player.setVelocity(direction, 4/SCALE);
         }
     }
     public void paintComponent(Graphics g){
         g.setColor(Color.cyan);
-        g.clearRect(0,0, TitleScreen.WIDTH,TitleScreen.HEIGHT);
+        g.clearRect(0,0, TitleScreen.WIDTH/SCALE,TitleScreen.HEIGHT/SCALE);
         g.drawRect((int)player.getX(),(int)player.getY(),player.getWidth(),player.getHeight());
 
     }

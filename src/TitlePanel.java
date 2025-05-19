@@ -7,6 +7,9 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class TitlePanel extends GamePanel {
+	public static final int SCALE = TitleScreen.SCALE;
+	public static final int W = TitleScreen.WIDTH;
+	public static final int H = TitleScreen.HEIGHT;
     final String TITLE_IMAGE_PATH = "images/background.png";
     final String STARS_IMAGE_PATH = "images/star.png";
     final String STARS1_IMAGE_PATH = "images/stars1.png";
@@ -15,12 +18,12 @@ public class TitlePanel extends GamePanel {
     final String NAME_IMAGE_PATH = "images/titleName.png";
     final String START_IMAGE_PATH = "images/start.png";
     final String SELECTED_START_IMAGE_PATH = "images/selectedStart.png";
-    private BufferedImage background;
+    private Image background;
     //private BufferedImage stars;
-    private BufferedImage stars1;
-    private BufferedImage stars2;
-    private BufferedImage stars3;
-    private BufferedImage title;
+    private Image stars1;
+    private Image stars2;
+    private Image stars3;
+    private Image title;
     private Button start;
     private int starX;
     private int titleX;
@@ -50,7 +53,7 @@ public class TitlePanel extends GamePanel {
     }
     private void loadImages(){
         try{
-            background = ImageIO.read(TitlePanel.class.getResource(TITLE_IMAGE_PATH));
+            background = ImageIO.read(TitlePanel.class.getResource(TITLE_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
         }
         catch(IOException e) {
             System.out.println("Loading background failed");
@@ -62,36 +65,36 @@ public class TitlePanel extends GamePanel {
 //            System.out.println("Loading stars failed");
 //        }
         try{
-            stars1 = ImageIO.read(TitlePanel.class.getResource(STARS1_IMAGE_PATH));
+            stars1 = ImageIO.read(TitlePanel.class.getResource(STARS1_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
         }
         catch(IOException e) {
             System.out.println("Loading stars1 failed");
         }
         try{
-            stars2 = ImageIO.read(TitlePanel.class.getResource(STARS2_IMAGE_PATH));
+            stars2 = ImageIO.read(TitlePanel.class.getResource(STARS2_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
         }
         catch(IOException e) {
             System.out.println("Loading stars2 failed");
         }
         try{
-            stars3 = ImageIO.read(TitlePanel.class.getResource(STARS3_IMAGE_PATH));
+            stars3 = ImageIO.read(TitlePanel.class.getResource(STARS3_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
         }
         catch(IOException e) {
             System.out.println("Loading stars3 failed");
         }
         try{
-           title = ImageIO.read(TitlePanel.class.getResource(NAME_IMAGE_PATH));
+           title = ImageIO.read(TitlePanel.class.getResource(NAME_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
         }
         catch(IOException e) {
 
             System.out.println("Loading title failed");
         }
         try{
-            start = new Button(571,555,820,126,ImageIO.read(TitlePanel.class.getResource(START_IMAGE_PATH))
-                    ,ImageIO.read(TitlePanel.class.getResource(SELECTED_START_IMAGE_PATH)), getJFrame());
+            start = new Button(561/SCALE,523/SCALE,820/SCALE,126/SCALE,ImageIO.read(TitlePanel.class.getResource(START_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH)
+                    ,ImageIO.read(TitlePanel.class.getResource(SELECTED_START_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH), this);
         }
         catch(IOException e) {
-            start = new Button(571,555,820,126,null,null, getJFrame());
+            start = new Button(561/SCALE,523/SCALE,820/SCALE,126/SCALE,null,null, this);
             System.out.println("Loading start button failed");
         }
     }
@@ -105,16 +108,19 @@ public class TitlePanel extends GamePanel {
         }
     }
     public void update(ArrayList<Integer> keys){
-
-        Point location = getJFrame().getMousePosition();
-        if(location == null){
-            location = new Point(0,0);
-        }
+//    	Point loc = MouseInfo.getPointerInfo().getLocation();
+//        Point loc2 = this.getLocationOnScreen();
+//        Point location = new Point((int)(loc.getX()-loc2.getX()),(int)(loc.getY()-loc2.getY()));
+    	Point location = this.getMousePosition();
+    	if(location == null) {
+    		location = new Point(0,0);
+    	}
+        
 
         if(isFocusOwner()){
 
-            starX = (int)(-30*(Math.atan(((double)TitleScreen.WIDTH/2-location.getX())/((double)TitleScreen.WIDTH/4))/Math.PI));
-            starY = (int)(-15*(Math.atan(((double)TitleScreen.HEIGHT/2-location.getY())/((double)TitleScreen.HEIGHT/4))/Math.PI));
+            starX = (int)(-(30/SCALE)*(Math.atan(((double)TitleScreen.WIDTH/(2*SCALE)-location.getX())/((double)TitleScreen.WIDTH/(4*SCALE)))/Math.PI));
+            starY = (int)(-(15/SCALE)*(Math.atan(((double)TitleScreen.HEIGHT/(2*SCALE)-location.getY())/((double)TitleScreen.HEIGHT/(4*SCALE)))/Math.PI));
 
         }
         else{
@@ -123,7 +129,7 @@ public class TitlePanel extends GamePanel {
         }
         start.tick(location.getX(),location.getY());
 
-        titleY = (int)(15*Math.sin(oscilation));
+        titleY = (int)((15/SCALE)*Math.sin(oscilation));
 
         oscilation = oscilation + 0.04;
         if(oscilation > 2*Math.PI){

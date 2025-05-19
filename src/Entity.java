@@ -109,5 +109,23 @@ public class Entity {
 	public void removeEntity() {
 		entities.remove(this);
 	}
+	public boolean isInHitBox(Entity other) {
+		boolean xCorrect = false;
+		boolean yCorrect = false;
+		if(other.getX()>=getX()) {
+			xCorrect = other.getX()<=getX()+getWidth();
+		}
+		else if(other.getX()<getX()) {
+			xCorrect = other.getX()+other.getWidth()>=getX();
+		}
+		if(other.getY()>=getY()) {
+			yCorrect = other.getY()<=getY()+getWidth();
+		}
+		else if(other.getY()<getY()) {
+			yCorrect = other.getY()+other.getWidth()>=getY();
+		}
+		return xCorrect && yCorrect;
+		
+	}
 	
 }
