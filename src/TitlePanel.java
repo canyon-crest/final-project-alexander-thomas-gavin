@@ -22,10 +22,8 @@ public class TitlePanel extends GamePanel {
     private BufferedImage stars3;
     private BufferedImage title;
     private Button start;
-    private int x;
     private int starX;
     private int titleX;
-    private int y;
     private int starY;
     private int titleY;
     private double oscilation;
@@ -39,8 +37,6 @@ public class TitlePanel extends GamePanel {
         stars3 = null;
         title = null;
         loadImages();
-        x=0;
-        y=0;
         titleX = 0;
         titleY = 0;
         starX = 0;
@@ -104,7 +100,9 @@ public class TitlePanel extends GamePanel {
 
     }
     public void click(int x, int y){
-        start.click();
+        if(start.click()){
+            getGameManager().startArena();
+        }
     }
     public void update(ArrayList<Integer> keys){
 
@@ -127,22 +125,6 @@ public class TitlePanel extends GamePanel {
 
         titleY = (int)(15*Math.sin(oscilation));
 
-
-        for(int i: keys){
-            if(i==KeyEvent.VK_DOWN){
-                y+=2;
-            }
-            if(i==KeyEvent.VK_UP){
-                y-=2;
-            }
-            if(i==KeyEvent.VK_LEFT){
-                x-=2;
-            }
-            if(i==KeyEvent.VK_RIGHT){
-                x+=2;
-            }
-        }
-
         oscilation = oscilation + 0.04;
         if(oscilation > 2*Math.PI){
             oscilation -= 2*Math.PI;
@@ -156,11 +138,6 @@ public class TitlePanel extends GamePanel {
         g.drawImage(stars3, (int)(starX*2.2), (int)(starY*2.2), null);
         g.drawImage(title,titleX,titleY,null);
         g.drawImage(start.getImage(),0,0,null);
-        g.drawRect(x,y,50,50);
-
-
-
-
 
     }
 

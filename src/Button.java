@@ -33,16 +33,14 @@ public class Button{
         }
         return imageUnselected;
     }
-    public void click(){
+    public boolean click(){
         Point loc = jFrame.getMousePosition();
         if(loc == null){
-            return;
+            return false;
         }
         double mouseX = loc.getX();
         double mouseY = loc.getY();
-        if(mouseX <= x + width && mouseX >= x && mouseY <= y + height && mouseY >= y){
-            System.exit(0);
-        }
+        return mouseX <= x + width && mouseX >= x && mouseY <= y + height && mouseY >= y;
     }
 
 

@@ -4,8 +4,8 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public abstract class GamePanel extends JPanel {
-    JFrame jFrame;
-    GameManager gameManager;
+    private JFrame jFrame;
+    private GameManager gameManager;
     public GamePanel(GameManager gameManager, JFrame jFrame){
         setPreferredSize(new Dimension(TitleScreen.WIDTH, TitleScreen.HEIGHT));
         this.jFrame = jFrame;

@@ -3,14 +3,19 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class GameManager implements ActionListener, KeyListener, MouseListener {
-	TitlePanel title;
-	Timer timer;
-	ArrayList<Integer> keysPressed;
+	private JFrame frame;
+	private GamePanel current;
+	private TitlePanel title;
+	private ArenaPanel arena;
+	private Timer timer;
+	private ArrayList<Integer> keysPressed;
 	public void startGame() {
 
-		JFrame frame = new TitleScreen();
+		frame = new TitleScreen();
 		title = new TitlePanel(this, frame);
-		frame.add(title);
+		arena = new ArenaPanel(this,frame);
+		current = title;
+		frame.add(current);
 		frame.setVisible(true);
 		timer = new Timer(17,this);
 		timer.start();
@@ -22,7 +27,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		title.tick(keysPressed);
+		current.tick(keysPressed);
 
 
 	}
@@ -78,5 +83,13 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 
+	}
+	public void startArena(){
+		frame.remove(current);
+		current = arena;
+		frame.add(current);
+		frame.repaint();
+		frame.revalidate();
+		current.requestFocusInWindow();
 	}
 }
