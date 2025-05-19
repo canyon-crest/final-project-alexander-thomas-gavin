@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class ArenaPanel extends GamePanel {
-    Entity player = new Entity(100,100,0.3,30,30);
+    Entity player = new Entity(100,100,0.3,30,30,0);
     public ArenaPanel(GameManager manager, JFrame frame){
         super(manager, frame);
         setBackground(Color.cyan);
