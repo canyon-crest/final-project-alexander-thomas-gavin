@@ -24,14 +24,14 @@ public class Character extends Entity {
   }
   public boolean tick(){
     super.tick();
-    if(getX() < 0){
-      move(0,getY());
+    if(getX() < 42/SCALE){
+      move(42/SCALE,getY());
     }
-    if(getY() < 0){
-      move(getX(),0);
+    if(getY() < 80/SCALE){
+      move(getX(),80/SCALE);
     }
-    if(getX() > (double)TitleScreen.WIDTH/SCALE-getWidth()){
-      move((double)TitleScreen.WIDTH/SCALE-getWidth(),getY());
+    if(getX() > (double)TitleScreen.WIDTH/SCALE-getWidth()-42/SCALE){
+      move((double)TitleScreen.WIDTH/SCALE-getWidth()-42/SCALE,getY());
     }
     if(getY() > (double)TitleScreen.HEIGHT/SCALE-getHeight()){
       move(getX(),(double)TitleScreen.HEIGHT/SCALE-getHeight());

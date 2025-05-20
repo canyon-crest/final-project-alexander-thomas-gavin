@@ -37,6 +37,12 @@ public class Entity {
 	public double getY() {
 		return yLocation;
 	}
+	public double getXCenter() {
+		return xLocation + width/2;
+	}
+	public double getYCenter() {
+		return yLocation + height/2;
+	}
 	public double getXVel() {
 		return Math.cos(velocity[0]) * velocity[1];
 	}

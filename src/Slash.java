@@ -30,7 +30,7 @@ public class Slash extends Projectile{
                 if(!hit) {
                     ((Enemy) e).takeDamage(getDamage());
                     player.stun(2);
-                    player.setRectVelocity(player.getX()-e.getX(),player.getY()-e.getY());
+                    player.setRectVelocity(player.getXCenter()-e.getXCenter(),player.getYCenter()-e.getYCenter());
                     player.setVelocity(player.getAngle(),4);
                     hit = true;
                 }

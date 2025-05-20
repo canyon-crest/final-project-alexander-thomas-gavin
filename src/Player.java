@@ -5,13 +5,15 @@ public class Player extends Character{
 	private int swordCooldown = 0;
 	private int iFrames = 0;
 	private int stun = 0;
+	private double speedMult = 1;
+	private double speedMultTime = 0;
 	public Player(double xLocation, double yLocation, double friction, int width, int height, int health) {
 		super(xLocation, yLocation, friction, width, height, health);
 
 	}
 	public void changeVelocity(double direction, double amount){
 		if(stun <= 0){
-			setVelocity(direction,amount);
+			setVelocity(direction,amount*speedMult);
 		}
 	}
 	public void swordAttack(double direction, int width, int height){
@@ -20,6 +22,7 @@ public class Player extends Character{
 					width ,height,this,(int)((width*Math.cos(direction))/2+(getWidth()*Math.cos(direction))/2),
 					(int)((height*Math.sin(direction))/2+(getHeight()*Math.sin(direction))/2));
 			swordCooldown = 15;
+			setSpeedMult(0.5,10);
 		}
 	}
 	public void dash(double direction,double amount){
@@ -45,6 +48,12 @@ public class Player extends Character{
 		}
 
 	}
+	public void setSpeedMult(double amount, double time) {
+		speedMult *= amount;
+		if(speedMultTime < time) {
+			speedMultTime = time;
+		}
+	}
 	public void stun(int time){
 		if(time > stun) {
 			stun = time;
@@ -57,6 +66,12 @@ public class Player extends Character{
 			return true;
 		}
 		setColor(Color.GREEN);
+		if(speedMultTime <= 0) {
+			speedMult = 1;
+		}
+		else {
+			speedMultTime--;
+		}
 		if(dashCooldown > 0) {
 			dashCooldown--;
 		}

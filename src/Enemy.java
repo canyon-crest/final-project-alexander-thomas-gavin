@@ -32,7 +32,7 @@ public class Enemy extends Character{
                 ((Player) e).takeDamage(10);
                 ((Player) e).setIFrames(5);
                 ((Player) e).stun((5));
-                e.setRectVelocity(e.getX()-e.getX(),e.getY()-e.getY());
+                e.setRectVelocity(e.getXCenter()-getXCenter(),e.getYCenter()-getYCenter());
                 e.setVelocity(e.getAngle(),4);
                 e.setColor(Color.ORANGE);
 
