@@ -1,17 +1,43 @@
+import java.awt.*;
+import java.util.ArrayList;
+
 public class Slash extends Projectile{
-    private Entity entity;
+    private Player player;
     private int offsetX;
     private int offsetY;
-    public Slash(double xLocation, double yLocation, int width, int height, Entity entity,int offsetX,int offsetY){
-        super(xLocation,yLocation,0,width,height,1,10,20);
-        this.entity = entity;
+    private boolean hit;
+    public Slash(double xLocation, double yLocation, int width, int height, Player player,int offsetX,int offsetY){
+        super(xLocation,yLocation,0,width,height,1,10,10);
+        this.player = player;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
+        hit = false;
+        setColor(Color.WHITE);
     }
     public boolean tick(){
 
-        move(entity.getX()+ entity.getWidth()/2-getWidth()/2+offsetX,entity.getY()+ entity.getHeight()/2-getHeight()/2+offsetY);
+        move(player.getX()+ player.getWidth()/2-getWidth()/2+offsetX,player.getY()+ player.getHeight()/2-getHeight()/2+offsetY);
         return super.tick();
 
     }
+    public boolean registerHit(){
+        setColor(Color.WHITE);
+        ArrayList<Entity> nearbyEntities = checkHitboxes();
+        for (Entity e : nearbyEntities) {
+            if (e instanceof Enemy) {
+                setColor(Color.BLUE);
+                e.setColor(Color.RED);
+                if(!hit) {
+                    ((Enemy) e).takeDamage(getDamage());
+                    player.stun(2);
+                    player.setRectVelocity(player.getX()-e.getX(),player.getY()-e.getY());
+                    player.setVelocity(player.getAngle(),4);
+                    hit = true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 }

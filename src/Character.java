@@ -22,4 +22,20 @@ public class Character extends Entity {
       health = maxHealth;
     }
   }
+  public boolean tick(){
+    super.tick();
+    if(getX() < 0){
+      move(0,getY());
+    }
+    if(getY() < 0){
+      move(getX(),0);
+    }
+    if(getX() > (double)TitleScreen.WIDTH/SCALE-getWidth()){
+      move((double)TitleScreen.WIDTH/SCALE-getWidth(),getY());
+    }
+    if(getY() > (double)TitleScreen.HEIGHT/SCALE-getHeight()){
+      move(getX(),(double)TitleScreen.HEIGHT/SCALE-getHeight());
+    }
+    return false;
+  }
 }

@@ -9,6 +9,9 @@ public abstract class Projectile extends Entity{
     }
     public boolean tick(){
         super.tick();
+        if(registerHit()){
+            return true;
+        }
         timeLeft--;
         if(timeLeft == 0){
             destroy();
@@ -22,5 +25,5 @@ public abstract class Projectile extends Entity{
     public int getTimeLeft(){
         return  timeLeft;
     }
-
+    public abstract boolean registerHit();
 }

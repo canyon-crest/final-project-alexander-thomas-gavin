@@ -7,7 +7,7 @@ public abstract class GamePanel extends JPanel {
     private JFrame jFrame;
     private GameManager gameManager;
     public GamePanel(GameManager gameManager, JFrame jFrame){
-        setPreferredSize(new Dimension(TitleScreen.WIDTH, TitleScreen.HEIGHT));
+        setPreferredSize(new Dimension(TitleScreen.WIDTH/TitleScreen.SCALE, TitleScreen.HEIGHT/TitleScreen.SCALE));
         this.jFrame = jFrame;
         this.gameManager = gameManager;
         addKeyListener(gameManager);

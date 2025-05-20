@@ -1,15 +1,16 @@
+import java.awt.*;
 
 public class Player extends Character{
 	private int dashCooldown = 0;
 	private int swordCooldown = 0;
+	private int iFrames = 0;
+	private int stun = 0;
 	public Player(double xLocation, double yLocation, double friction, int width, int height, int health) {
 		super(xLocation, yLocation, friction, width, height, health);
-		
-		
-		
+
 	}
 	public void changeVelocity(double direction, double amount){
-		if(dashCooldown <= 62){
+		if(stun <= 0){
 			setVelocity(direction,amount);
 		}
 	}
@@ -18,24 +19,55 @@ public class Player extends Character{
 			new Slash(getX()+getWidth()*Math.cos(direction)/2,getY()+getHeight()*Math.sin(direction)/2 ,
 					width ,height,this,(int)((width*Math.cos(direction))/2+(getWidth()*Math.cos(direction))/2),
 					(int)((height*Math.sin(direction))/2+(getHeight()*Math.sin(direction))/2));
-			swordCooldown = 30;
+			swordCooldown = 15;
 		}
 	}
 	public void dash(double direction,double amount){
 		if(dashCooldown == 0){
 			setVelocity(direction, amount);
 			dashCooldown = 80;
+			iFrames = 15;
+			if(stun < 18) {
+				stun = 18;
+			}
 		}
 
 
 	}
+	public void takeDamage(int amount){
+		if(iFrames == 0) {
+			super.takeDamage(amount);
+		}
+	}
+	public void setIFrames(int amount){
+		if(amount > iFrames){
+			iFrames = amount;
+		}
+
+	}
+	public void stun(int time){
+		if(time > stun) {
+			stun = time;
+		}
+	}
 	public boolean tick(){
 		super.tick();
+		if(getHealth() == 0){
+			destroy();
+			return true;
+		}
+		setColor(Color.GREEN);
 		if(dashCooldown > 0) {
 			dashCooldown--;
 		}
 		if(swordCooldown > 0){
 			swordCooldown--;
+		}
+		if(iFrames > 0){
+			iFrames--;
+		}
+		if(stun > 0){
+			stun--;
 		}
 		return false;
 	}

@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 public class ArenaPanel extends GamePanel {
 	public static int SCALE = TitleScreen.SCALE;
-    private Player player = new Player(100/SCALE,100/SCALE,0.3*SCALE,60/SCALE,60/SCALE,100);
+    private Player player;
+    private Enemy enemy;
     private ArrayList<Integer> prevKeys;
     private double prevDirection;
     public ArenaPanel(GameManager manager, JFrame frame){
@@ -14,6 +15,9 @@ public class ArenaPanel extends GamePanel {
         setBackground(Color.cyan);
         prevKeys = new ArrayList<Integer>();
         prevDirection = 0;
+        player = new Player(100/SCALE,100/SCALE,0.3*SCALE,60/SCALE,60/SCALE,100);
+        enemy = new Enemy(400/SCALE,400/SCALE,0.8*SCALE,60/SCALE,60/SCALE,100,player);
+
 
     }
     @Override
@@ -110,10 +114,12 @@ public class ArenaPanel extends GamePanel {
 
         g.setColor(Color.BLACK);
         g.fillRect(0,0,TitleScreen.WIDTH/SCALE,TitleScreen.HEIGHT/SCALE);
-        g.setColor(Color.cyan);
+
         for(Entity e: Entity.getAllEntities()) {
+            g.setColor(e.getColor());
             g.drawRect((int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight());
         }
+        g.setColor(Color.CYAN);
 
     }
 }

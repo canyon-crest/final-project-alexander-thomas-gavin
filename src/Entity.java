@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Entity {
@@ -9,6 +11,7 @@ public class Entity {
 	private	int width;
 	private int height;
 	private int damages;
+	private Color color;
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	public Entity(double xLocation, double yLocation, double friction, int width, int height, int damages){
 		this.xLocation = xLocation;
@@ -19,6 +22,7 @@ public class Entity {
 		this.velocity = new double[]{0,0};
 		this.damages = damages;
 		entities.add(this);
+		color = Color.CYAN;
 	}
 	
 	public void move(double xLocation, double yLocation) {
@@ -46,12 +50,11 @@ public class Entity {
 	public int getHeight(){
 		return height;
 	}
-	public double[] getVelocity() {
-		return velocity;
-		
-	}
 	public double getAngle() {
 		return velocity[0];
+	}
+	public double getMagnitude(){
+		return velocity[1];
 	}
 	public void setVelocity(double angle, double magnitude) {
 		velocity[0] = angle;
@@ -83,7 +86,27 @@ public class Entity {
 
 
 	}
+	public void setRectVelocity(double x, double y){
+		if(-0.001 < x && x < 0.001){
+			x = 0.0001;
+		}
+		velocity[0] = Math.atan(y/x);
+		if(x < 0 || y < 0){
+			velocity[0] += Math.PI;
+		}
+		if(x >= 0 && y < 0){
+			velocity[0] += Math.PI;
+		}
+		velocity[1] = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+	}
+	public void setColor(Color color){
+		this.color = color;
+	}
+	public Color getColor(){
+		return color;
+	}
 	public boolean tick() {
+
 		if(velocity[1] != 0){
 			move(xLocation+getXVel(),yLocation+getYVel());
 		}
@@ -93,6 +116,7 @@ public class Entity {
 		if(velocity[1] <= friction) {
 			velocity[1] = 0;
 		}
+
 		return false;
 	}
 	public static ArrayList<Entity> getAllEntities() {
@@ -100,8 +124,14 @@ public class Entity {
 		
 		
 	}
-	public void checkHitboxes() {
-		
+	public ArrayList<Entity> checkHitboxes() {
+		ArrayList<Entity> nearbyEntities = new ArrayList<Entity>();
+		for(Entity e: entities){
+			if(isInHitBox(e)){
+				nearbyEntities.add(e);
+			}
+		}
+		return nearbyEntities;
 	}
 	public static void removeEntity(Entity entity) {
 		entities.remove(entity);
