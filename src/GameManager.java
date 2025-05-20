@@ -62,7 +62,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		title.click(e.getX(),e.getY());
+		current.click(e.getX(),e.getY());
 	}
 
 	@Override

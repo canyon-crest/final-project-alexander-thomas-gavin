@@ -1,10 +1,42 @@
 
 public class Player extends Character{
-	
+	private int dashCooldown = 0;
+	private int swordCooldown = 0;
 	public Player(double xLocation, double yLocation, double friction, int width, int height, int health) {
 		super(xLocation, yLocation, friction, width, height, health);
 		
 		
 		
+	}
+	public void changeVelocity(double direction, double amount){
+		if(dashCooldown <= 62){
+			setVelocity(direction,amount);
+		}
+	}
+	public void swordAttack(double direction, int width, int height){
+		if(swordCooldown == 0){
+			new Slash(getX()+getWidth()*Math.cos(direction)/2,getY()+getHeight()*Math.sin(direction)/2 ,
+					width ,height,this,(int)((width*Math.cos(direction))/2+(getWidth()*Math.cos(direction))/2),
+					(int)((height*Math.sin(direction))/2+(getHeight()*Math.sin(direction))/2));
+			swordCooldown = 30;
+		}
+	}
+	public void dash(double direction,double amount){
+		if(dashCooldown == 0){
+			setVelocity(direction, amount);
+			dashCooldown = 80;
+		}
+
+
+	}
+	public boolean tick(){
+		super.tick();
+		if(dashCooldown > 0) {
+			dashCooldown--;
+		}
+		if(swordCooldown > 0){
+			swordCooldown--;
+		}
+		return false;
 	}
 }

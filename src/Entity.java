@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Entity {
+	public static final int SCALE = TitleScreen.SCALE;
 	private double xLocation;
 	private double yLocation;
 	private double friction;
@@ -82,7 +83,7 @@ public class Entity {
 
 
 	}
-	public void tick() {
+	public boolean tick() {
 		if(velocity[1] != 0){
 			move(xLocation+getXVel(),yLocation+getYVel());
 		}
@@ -92,11 +93,7 @@ public class Entity {
 		if(velocity[1] <= friction) {
 			velocity[1] = 0;
 		}
-
-
-
-
-
+		return false;
 	}
 	public static ArrayList<Entity> getAllEntities() {
 		return entities;
@@ -106,7 +103,10 @@ public class Entity {
 	public void checkHitboxes() {
 		
 	}
-	public void removeEntity() {
+	public static void removeEntity(Entity entity) {
+		entities.remove(entity);
+	}
+	public void destroy(){
 		entities.remove(this);
 	}
 	public boolean isInHitBox(Entity other) {

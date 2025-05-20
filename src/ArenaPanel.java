@@ -6,26 +6,39 @@ import java.util.ArrayList;
 
 public class ArenaPanel extends GamePanel {
 	public static int SCALE = TitleScreen.SCALE;
-    private Entity player = new Entity(100/SCALE,100/SCALE,0.3*SCALE,30/SCALE,30/SCALE,0);
+    private Player player = new Player(100/SCALE,100/SCALE,0.3*SCALE,60/SCALE,60/SCALE,100);
+    private ArrayList<Integer> prevKeys;
+    private double prevDirection;
     public ArenaPanel(GameManager manager, JFrame frame){
         super(manager, frame);
         setBackground(Color.cyan);
+        prevKeys = new ArrayList<Integer>();
+        prevDirection = 0;
 
     }
     @Override
     public void click(int x, int y) {
-
+        player.swordAttack(prevDirection,(int)(player.getWidth()),(int)(player.getHeight()));
     }
 
     @Override
     public void update(ArrayList<Integer> keys) {
-        player.tick();
+        for(int i = 0; i < Entity.getAllEntities().size(); i++) {
+            if(Entity.getAllEntities().get(i).tick()){
+                i--;
+            }
+        }
+        //directions
         boolean up = false;
         boolean down = false;
         boolean left = false;
         boolean right = false;
-        double direction = 0;
+        //dash
+        boolean space = false;
+        boolean prevSpace = false;
+        double direction = prevDirection;
         for(int i: keys){
+            //directions
             if(i == KeyEvent.VK_UP || i == KeyEvent.VK_W){
                 up = true;
             }
@@ -38,7 +51,20 @@ public class ArenaPanel extends GamePanel {
             if(i == KeyEvent.VK_RIGHT || i == KeyEvent.VK_D){
                 right = true;
             }
+            //dash
+            if(i == KeyEvent.VK_SPACE){
+                space = true;
+
+
+            }
         }
+        for(int i: prevKeys){
+            if(i == KeyEvent.VK_SPACE){
+                prevSpace = true;
+
+            }
+        }
+        //moving directions
         if(up){
             direction = 3*Math.PI/2;
         }
@@ -68,13 +94,26 @@ public class ArenaPanel extends GamePanel {
 
 
         if(up||down||left||right) {
-            player.setVelocity(direction, 4/SCALE);
+            player.changeVelocity(direction, 8/SCALE);
         }
+        //dashing
+        if(space && !prevSpace){
+            player.dash(direction,24/SCALE);
+        }
+        prevDirection = direction;
+
+
+        prevKeys = new ArrayList<Integer>(keys);
+
     }
     public void paintComponent(Graphics g){
+
+        g.setColor(Color.BLACK);
+        g.fillRect(0,0,TitleScreen.WIDTH/SCALE,TitleScreen.HEIGHT/SCALE);
         g.setColor(Color.cyan);
-        g.clearRect(0,0, TitleScreen.WIDTH/SCALE,TitleScreen.HEIGHT/SCALE);
-        g.drawRect((int)player.getX(),(int)player.getY(),player.getWidth(),player.getHeight());
+        for(Entity e: Entity.getAllEntities()) {
+            g.drawRect((int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight());
+        }
 
     }
 }
