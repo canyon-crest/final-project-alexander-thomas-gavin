@@ -16,6 +16,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		arena = new ArenaPanel(this,frame);
 		current = title;
 		frame.add(current);
+		frame.pack();
 		frame.setVisible(true);
 		timer = new Timer(17,this);
 		timer.start();
@@ -88,6 +89,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		frame.remove(current);
 		current = arena;
 		frame.add(current);
+		frame.pack();
 		frame.repaint();
 		frame.revalidate();
 		current.requestFocusInWindow();
