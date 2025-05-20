@@ -1,18 +1,32 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ArenaPanel extends GamePanel {
-	public static int SCALE = TitleScreen.SCALE;
+	public static final int SCALE = TitleScreen.SCALE;
+	public static final int W = TitleScreen.WIDTH;
+	public static final int H = TitleScreen.HEIGHT;
     private Player player;
     private Enemy enemy;
     private ArrayList<Integer> prevKeys;
     private double prevDirection;
+    final String BACKGROUND_IMAGE_PATH = "images/arena/arenaBackground.png";
+    final String TOPWALL_IMAGE_PATH = "images/arena/arenaTopwall.png";
+    final String MAINWALL_IMAGE_PATH = "images/arena/arenaMainwall.png";
+    private Image background;
+    private Image topwall;
+    private Image mainwall;
     public ArenaPanel(GameManager manager, JFrame frame){
         super(manager, frame);
         setBackground(Color.cyan);
+        background = null;
+        topwall = null;
+        mainwall = null;
+        loadImages();
         prevKeys = new ArrayList<Integer>();
         prevDirection = 0;
         player = new Player(100/SCALE,100/SCALE,0.3*SCALE,60/SCALE,60/SCALE,100);
@@ -23,6 +37,27 @@ public class ArenaPanel extends GamePanel {
     @Override
     public void click(int x, int y) {
         player.swordAttack(prevDirection,(int)(player.getWidth()),(int)(player.getHeight()));
+    }
+    
+    private void loadImages(){
+    	try{
+            background = ImageIO.read(ArenaPanel.class.getResource(BACKGROUND_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+        }
+        catch(IOException e) {
+            System.out.println("Loading background failed");
+        }
+    	try{
+            topwall = ImageIO.read(ArenaPanel.class.getResource(TOPWALL_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+        }
+        catch(IOException e) {
+            System.out.println("Loading topwall failed");
+        }
+    	try{
+            mainwall = ImageIO.read(ArenaPanel.class.getResource(MAINWALL_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+        }
+        catch(IOException e) {
+            System.out.println("Loading mainwall failed");
+        }
     }
 
     @Override
@@ -114,11 +149,13 @@ public class ArenaPanel extends GamePanel {
 
         g.setColor(Color.BLACK);
         g.fillRect(0,0,TitleScreen.WIDTH/SCALE,TitleScreen.HEIGHT/SCALE);
-
+        g.drawImage(background, 0, 0, null);
+        g.drawImage(topwall, 0, 0, null);
         for(Entity e: Entity.getAllEntities()) {
             g.setColor(e.getColor());
             g.drawRect((int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight());
         }
+        g.drawImage(mainwall, 0, 0, null);
         g.setColor(Color.CYAN);
 
     }
