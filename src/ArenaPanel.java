@@ -160,9 +160,11 @@ public class ArenaPanel extends GamePanel {
             if(e instanceof EntropyBeam){
                 EntropyBeam eb = (EntropyBeam) e;
                 if(eb.isActive()) {
-
-                    g.drawLine((int) eb.getX()+eb.getWidth(), (int)eb.getY(), eb.getEndX()+eb.getWidth(), eb.getEndY());
-                    g.drawLine((int) eb.getX()-eb.getWidth(), (int) eb.getY(), eb.getEndX()-eb.getWidth(), eb.getEndY());
+                    double newAngle = eb.getAngle()-Math.PI/2;
+                    double newX = Math.cos(newAngle);
+                    double newY = Math.sin(newAngle);
+                    g.drawLine((int) (eb.getX()+eb.getWidth()*newX), (int)(eb.getY()+eb.getWidth()*newY), (int)(eb.getEndX()+eb.getWidth()*newX), (int)(eb.getEndY()+eb.getWidth()*newY));
+                    g.drawLine((int) (eb.getX()-eb.getWidth()*newX), (int)(eb.getY()-eb.getWidth()*newY), (int)(eb.getEndX()-eb.getWidth()*newX), (int)(eb.getEndY()-eb.getWidth()*newY));
                 }
                 else{
                     g.drawLine((int) eb.getX(), (int) eb.getY(), eb.getEndX(), eb.getEndY());
