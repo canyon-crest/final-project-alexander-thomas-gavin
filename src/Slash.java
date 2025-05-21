@@ -15,13 +15,13 @@ public class Slash extends Projectile{
         setColor(Color.WHITE);
     }
     public boolean tick(){
-
+        setColor(Color.WHITE);
         move(player.getX()+ player.getWidth()/2-getWidth()/2+offsetX,player.getY()+ player.getHeight()/2-getHeight()/2+offsetY);
         return super.tick();
 
     }
     public boolean registerHit(){
-        setColor(Color.WHITE);
+
         ArrayList<Entity> nearbyEntities = checkHitboxes();
         for (Entity e : nearbyEntities) {
             if (e instanceof Enemy) {

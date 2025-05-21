@@ -24,17 +24,17 @@ public class Character extends Entity {
   }
   public boolean tick(){
     super.tick();
-    if(getX() < 42/SCALE){
-      move(42/SCALE,getY());
+    if(getX() < 42d/SCALE){
+      move(42d/SCALE,getY());
     }
-    if(getY() < 80/SCALE){
-      move(getX(),80/SCALE);
+    if(getY() < 120d/SCALE){
+      move(getX(),120d/SCALE);
     }
-    if(getX() > (double)TitleScreen.WIDTH/SCALE-getWidth()-42/SCALE){
-      move((double)TitleScreen.WIDTH/SCALE-getWidth()-42/SCALE,getY());
+    if(getX() > (double)TitleScreen.WIDTH/SCALE-getWidth()-42d/SCALE){
+      move((double)TitleScreen.WIDTH/SCALE-getWidth()-42d/SCALE,getY());
     }
-    if(getY() > (double)TitleScreen.HEIGHT/SCALE-getHeight()){
-      move(getX(),(double)TitleScreen.HEIGHT/SCALE-getHeight());
+    if(getY() > (double)TitleScreen.HEIGHT/SCALE-getHeight()-110d/SCALE){
+      move(getX(),(double)TitleScreen.HEIGHT/SCALE-getHeight()-110d/SCALE);
     }
     return false;
   }

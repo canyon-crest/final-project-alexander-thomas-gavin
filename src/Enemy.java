@@ -6,6 +6,11 @@ public class Enemy extends Character{
     private Entity mortalEnemy;
     private int cooldown = 0;
     private int noAction = 0;
+    private double dashX;
+    private double dashY;
+    private int dashProgress;
+    private int entropyProgress;
+
     public Enemy(double xLocation, double yLocation, double friction, int width, int height, int health, Entity mortalEnemy) {
         super(xLocation, yLocation, friction, width, height, health);
         this.mortalEnemy = mortalEnemy;
@@ -41,20 +46,58 @@ public class Enemy extends Character{
         }
         if(cooldown <= 0){
             double attackChance = Math.random();
-            if(attackChance <= 0.05){
-                dash();
-                cooldown = 100;
-                noAction = 20;
+            if(attackChance <= 0.025){
+                initiateDash();
+
+            }
+            else if(attackChance <= 0.05){
+                initiateEntropy();
             }
         }
         else{
             cooldown--;
         }
+        if(dashProgress > 0){
+            if(dashProgress == 20){
+                setRectVelocity(dashX-getXCenter(),dashY-getYCenter());
+                setVelocity(getAngle(),(getMagnitude()+120)/15);
+
+            }
+            dashProgress--;
+
+        }
+        if(entropyProgress > 0){
+            entropyProgress--;
+        }
         return false;
     }
-    public void dash(){
-        setRectVelocity(Math.random()*TitleScreen.WIDTH/SCALE-getX(),Math.random()*TitleScreen.HEIGHT/SCALE-getY());
-        setVelocity(getAngle(),Math.sqrt(getMagnitude()));
+    public void initiateDash(){
+        dashX = Math.random()*(TitleScreen.WIDTH-84)/SCALE+(double)42/SCALE;
+        dashY = Math.random()*(TitleScreen.HEIGHT-230)/SCALE+120d/SCALE;
+        Indicator i = new Indicator(dashX,dashY,50/SCALE,50/SCALE,15);
+        i.moveCentered(dashX,dashY);
+        dashProgress = 30;
+        cooldown = 100;
+        noAction = 25;
+    }
+    public void initiateEntropy(){
+        double angleDiff = 0;
+        double x = Math.random()*TitleScreen.WIDTH/SCALE;
+
+        if(mortalEnemy.getXCenter() != x) {
+            angleDiff = Math.atan(mortalEnemy.getYCenter() / (mortalEnemy.getXCenter()-x));
+        }
+        else{
+            angleDiff = Math.PI/2;
+        }
+        if(angleDiff<0){
+            angleDiff+=Math.PI;
+        }
+        EntropyBeam a = new EntropyBeam(x,0,30/SCALE,angleDiff);
+
+        entropyProgress = 30;
+        cooldown = 200;
+        noAction = 30;
     }
 
 

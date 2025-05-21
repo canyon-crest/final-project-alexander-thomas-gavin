@@ -43,6 +43,9 @@ public class Entity {
 	public double getYCenter() {
 		return yLocation + height/2;
 	}
+	public void moveCentered(double x, double y){
+		move(x-(double)getWidth()/2,y-(double)getHeight()/2);
+	}
 	public double getXVel() {
 		return Math.cos(velocity[0]) * velocity[1];
 	}

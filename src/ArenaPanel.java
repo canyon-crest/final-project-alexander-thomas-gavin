@@ -10,8 +10,10 @@ public class ArenaPanel extends GamePanel {
 	public static final int SCALE = TitleScreen.SCALE;
 	public static final int W = TitleScreen.WIDTH;
 	public static final int H = TitleScreen.HEIGHT;
+
     private Player player;
     private Enemy enemy;
+
     private ArrayList<Integer> prevKeys;
     private double prevDirection;
     final String BACKGROUND_IMAGE_PATH = "images/arena/arenaBackground.png";
@@ -20,6 +22,7 @@ public class ArenaPanel extends GamePanel {
     private Image background;
     private Image topwall;
     private Image mainwall;
+
     public ArenaPanel(GameManager manager, JFrame frame){
         super(manager, frame);
         setBackground(Color.cyan);
@@ -31,6 +34,7 @@ public class ArenaPanel extends GamePanel {
         prevDirection = 0;
         player = new Player(100/SCALE,100/SCALE,0.3*SCALE,60/SCALE,60/SCALE,100);
         enemy = new Enemy(400/SCALE,400/SCALE,0.8*SCALE,90/SCALE,90/SCALE,100,player);
+
 
 
     }
@@ -153,10 +157,24 @@ public class ArenaPanel extends GamePanel {
         g.drawImage(topwall, 0, 0, null);
         for(Entity e: Entity.getAllEntities()) {
             g.setColor(e.getColor());
-            g.drawRect((int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight());
+            if(e instanceof EntropyBeam){
+                EntropyBeam eb = (EntropyBeam) e;
+                if(eb.isActive()) {
+
+                    g.drawLine((int) eb.getX()+eb.getWidth(), (int)eb.getY(), eb.getEndX()+eb.getWidth(), eb.getEndY());
+                    g.drawLine((int) eb.getX()-eb.getWidth(), (int) eb.getY(), eb.getEndX()-eb.getWidth(), eb.getEndY());
+                }
+                else{
+                    g.drawLine((int) eb.getX(), (int) eb.getY(), eb.getEndX(), eb.getEndY());
+                }
+            }
+            else {
+                g.drawRect((int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight());
+            }
         }
         g.drawImage(mainwall, 0, 0, null);
         g.setColor(Color.CYAN);
+
 
     }
 }

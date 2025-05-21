@@ -7,6 +7,7 @@ public class Player extends Character{
 	private int stun = 0;
 	private double speedMult = 1;
 	private double speedMultTime = 0;
+	private int hurt = 0;
 	public Player(double xLocation, double yLocation, double friction, int width, int height, int health) {
 		super(xLocation, yLocation, friction, width, height, health);
 
@@ -37,6 +38,9 @@ public class Player extends Character{
 
 
 	}
+	public void hurt(){
+		hurt = 1;
+	}
 	public void takeDamage(int amount){
 		if(iFrames == 0) {
 			super.takeDamage(amount);
@@ -47,6 +51,9 @@ public class Player extends Character{
 			iFrames = amount;
 		}
 
+	}
+	public int getiFrames(){
+		return iFrames;
 	}
 	public void setSpeedMult(double amount, double time) {
 		speedMult *= amount;
@@ -65,7 +72,13 @@ public class Player extends Character{
 			destroy();
 			return true;
 		}
-		setColor(Color.GREEN);
+		if(hurt == 0) {
+			setColor(Color.GREEN);
+		}
+		else{
+			setColor(Color.ORANGE);
+			hurt = 0;
+		}
 		if(speedMultTime <= 0) {
 			speedMult = 1;
 		}
