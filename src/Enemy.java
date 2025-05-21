@@ -50,7 +50,7 @@ public class Enemy extends Character{
                 initiateDash();
 
             }
-            else if(attackChance <= 0.05){
+            else if(attackChance <= 0.035){
                 initiateEntropy();
             }
         }
@@ -77,7 +77,7 @@ public class Enemy extends Character{
         Indicator i = new Indicator(dashX,dashY,50/SCALE,50/SCALE,15);
         i.moveCentered(dashX,dashY);
         dashProgress = 30;
-        cooldown = 100;
+        cooldown = 60;
         noAction = 25;
     }
     public void initiateEntropy(){

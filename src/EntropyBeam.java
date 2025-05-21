@@ -7,6 +7,7 @@ public class EntropyBeam extends Projectile{
     private int startX;
     private int startY;
     private boolean active;
+    int axis;
 
     public EntropyBeam(double xLocation, double yLocation,int width,double direction){
         super(xLocation,yLocation,0,width,0,2,10,50);
@@ -26,6 +27,16 @@ public class EntropyBeam extends Projectile{
         }
         endX = (int)x;
         endY = (int)y;
+        if(x <= 42d/SCALE){
+            axis = 0;
+        }
+        else if(y >= (double)TitleScreen.HEIGHT/SCALE - 110d/SCALE){
+            axis = 1;
+        }
+        else if(x >= (double)TitleScreen.WIDTH/SCALE-42d/SCALE){
+            axis = 2;
+        }
+
     }
     public boolean isInHitBox(Entity other){
         double angleDiff = 0;
@@ -55,8 +66,14 @@ public class EntropyBeam extends Projectile{
         return endY;
     }
     public boolean tick(){
-        if(getTimeLeft() <= 30){
+        if(getTimeLeft() == 30){
             active = true;
+            double direction = -Math.PI/2+(Math.PI/2)*axis;
+            for(int i = 0; i < 8; i++){
+                new Debris(getEndX(),getEndY(),40/SCALE,40/SCALE,direction);
+                direction += Math.PI/8;
+            }
+
         }
         move(startX,startY);
         return super.tick();
