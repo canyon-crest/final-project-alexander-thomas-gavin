@@ -4,7 +4,19 @@ import java.util.ArrayList;
 public class Debris extends Projectile{
     public Debris(double xLocation, double yLocation, int width, int height,double direction) {
         super(xLocation, yLocation, 0.2+Math.random()*0.2, width, height, 2, 10, (int)(Math.random()*20)+30);
-        setVelocity(direction + Math.random()*Math.PI/30-Math.PI/15, Math.random()*6+12);
+        setVelocity(direction + Math.random()*Math.PI/30-Math.PI/15, Math.random()*4+14);
+        if(getX() > (double)TitleScreen.WIDTH/SCALE-getWidth()-42d/SCALE){
+            move((double)TitleScreen.WIDTH/SCALE-getWidth()-42d/SCALE,getY());
+        }
+        if(getX() < 42d/SCALE){
+            move(42d/SCALE,getY());
+        }
+        if(getY() < 120d/SCALE){
+            move(getX(),120d/SCALE);
+        }
+        if(getY() > (double)TitleScreen.HEIGHT/SCALE-getHeight()-110d/SCALE){
+            move(getX(),(double)TitleScreen.HEIGHT/SCALE-getHeight()-110d/SCALE);
+        }
     }
     public boolean tick(){
         if(getX() > (double)TitleScreen.WIDTH/SCALE-getWidth()-42d/SCALE){
@@ -21,7 +33,8 @@ public class Debris extends Projectile{
         }
         if(getY() > (double)TitleScreen.HEIGHT/SCALE-getHeight()-110d/SCALE){
             move(getX(),(double)TitleScreen.HEIGHT/SCALE-getHeight()-110d/SCALE);
-            setVelocity(Math.PI-2*getAngle(),getMagnitude());
+            setRectVelocity(getXVel(),-1*getYVel());
+
         }
         return super.tick();
     }
