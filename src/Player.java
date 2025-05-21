@@ -22,7 +22,7 @@ public class Player extends Character{
 			new Slash(getX()+getWidth()*Math.cos(direction)/2,getY()+getHeight()*Math.sin(direction)/2 ,
 					width ,height,this,(int)((width*Math.cos(direction))/2+(getWidth()*Math.cos(direction))/2),
 					(int)((height*Math.sin(direction))/2+(getHeight()*Math.sin(direction))/2));
-			swordCooldown = 15;
+			swordCooldown = 10;
 			setSpeedMult(0.5,10);
 		}
 	}

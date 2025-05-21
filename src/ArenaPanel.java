@@ -33,14 +33,21 @@ public class ArenaPanel extends GamePanel {
         prevKeys = new ArrayList<Integer>();
         prevDirection = 0;
         player = new Player(100/SCALE,100/SCALE,0.3*SCALE,60/SCALE,60/SCALE,100);
-        enemy = new Enemy(400/SCALE,400/SCALE,0.8*SCALE,90/SCALE,90/SCALE,100,player);
+        enemy = new Enemy(400/SCALE,400/SCALE,0.8*SCALE,90/SCALE,90/SCALE,1000,player);
 
 
 
     }
     @Override
     public void click(int x, int y) {
-        player.swordAttack(prevDirection,(int)(player.getWidth()),(int)(player.getHeight()));
+    	
+    	if(prevDirection % (Math.PI/2d) < 0.1) {
+    		
+    		player.swordAttack(prevDirection,(int)(player.getWidth()+Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()+Math.abs(player.getWidth()*Math.cos(prevDirection))));
+    	}
+    	else {
+    		player.swordAttack(prevDirection,(int)(player.getWidth()/2+Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()/2+Math.abs(player.getWidth()*Math.cos(prevDirection))));
+    	}
     }
     
     private void loadImages(){
@@ -137,11 +144,11 @@ public class ArenaPanel extends GamePanel {
 
 
         if(up||down||left||right) {
-            player.changeVelocity(direction, 8/SCALE);
+            player.changeVelocity(direction, 10/SCALE);
         }
         //dashing
         if(space && !prevSpace){
-            player.dash(direction,24/SCALE);
+            player.dash(direction,26/SCALE);
         }
         prevDirection = direction;
 

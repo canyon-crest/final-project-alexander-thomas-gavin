@@ -158,10 +158,10 @@ public class Entity {
 			xCorrect = other.getX()+other.getWidth()>=getX();
 		}
 		if(other.getY()>=getY()) {
-			yCorrect = other.getY()<=getY()+getWidth();
+			yCorrect = other.getY()<=getY()+getHeight();
 		}
 		else if(other.getY()<getY()) {
-			yCorrect = other.getY()+other.getWidth()>=getY();
+			yCorrect = other.getY()+other.getHeight()>=getY();
 		}
 		return xCorrect && yCorrect;
 		

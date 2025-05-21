@@ -7,7 +7,7 @@ public class Slash extends Projectile{
     private int offsetY;
     private boolean hit;
     public Slash(double xLocation, double yLocation, int width, int height, Player player,int offsetX,int offsetY){
-        super(xLocation,yLocation,0,width,height,1,10,10);
+        super(xLocation,yLocation,0,width,height,1,10,8);
         this.player = player;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
@@ -31,7 +31,7 @@ public class Slash extends Projectile{
                     ((Enemy) e).takeDamage(getDamage());
                     player.stun(2);
                     player.setRectVelocity(player.getXCenter()-e.getXCenter(),player.getYCenter()-e.getYCenter());
-                    player.setVelocity(player.getAngle(),4);
+                    player.setVelocity(player.getAngle(),12/SCALE);
                     hit = true;
                 }
             }
