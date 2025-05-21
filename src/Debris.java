@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Debris extends Projectile{
     public Debris(double xLocation, double yLocation, int width, int height,double direction) {
         super(xLocation, yLocation, 0.2+Math.random()*0.2, width, height, 2, 10, (int)(Math.random()*20)+30);
-        setVelocity(direction + Math.random()*Math.PI/30-Math.PI/15, Math.random()*4+14);
+        setVelocity(direction + Math.random()*Math.PI/30-Math.PI/15, (Math.random()*10+30)/SCALE);
         if(getX() > (double)TitleScreen.WIDTH/SCALE-getWidth()-42d/SCALE){
             move((double)TitleScreen.WIDTH/SCALE-getWidth()-42d/SCALE,getY());
         }

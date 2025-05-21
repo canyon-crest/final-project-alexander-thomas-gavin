@@ -69,9 +69,9 @@ public class EntropyBeam extends Projectile{
         if(getTimeLeft() == 30){
             active = true;
             double direction = -Math.PI/2+(Math.PI/2)*axis;
-            for(int i = 0; i < 8; i++){
+            for(int i = 0; i < 7; i++){
                 new Debris(getEndX(),getEndY(),40/SCALE,40/SCALE,direction);
-                direction += Math.PI/8;
+                direction += Math.PI/6;
             }
 
         }
