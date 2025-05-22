@@ -5,8 +5,8 @@ import javax.imageio.ImageIO;
 
 public class Player extends Character{
 	public static final int SCALE = TitleScreen.SCALE;
-	public static final int W = TitleScreen.WIDTH;
-	public static final int H = TitleScreen.HEIGHT;
+	public static final int W = 96;
+	public static final int H = 96;
 	
 	private int dashCooldown = 0;
 	private int swordCooldown = 0;
@@ -134,6 +134,18 @@ public class Player extends Character{
 			regen--;
 		}
 		return false;
+	}
+	public Image getImage() {
+		if ( Math.PI/8 <= getAngle() && getAngle() <= Math.PI/4+Math.PI/8) {
+			return DDR;
+		}
+		else if (Math.PI/4 > getAngle() && -Math.PI/4 < getAngle()) {
+			return R;
+		}
+		
+		return D;
+		
+		//pi/8 intervals
 	}
 	  private void loadImages(){
 	    	try{

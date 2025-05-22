@@ -162,6 +162,7 @@ public class ArenaPanel extends GamePanel {
         g.fillRect(0,0,TitleScreen.WIDTH/SCALE,TitleScreen.HEIGHT/SCALE);
         g.drawImage(background, 0, 0, null);
         g.drawImage(topwall, 0, 0, null);
+        g.drawImage(player.getImage(), (int) player.getX(), (int) player.getY(), null);
         for(Entity e: Entity.getAllEntities()) {
             g.setColor(e.getColor());
             if(e instanceof EntropyBeam){
