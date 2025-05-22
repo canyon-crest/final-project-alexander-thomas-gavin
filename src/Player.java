@@ -136,16 +136,47 @@ public class Player extends Character{
 		return false;
 	}
 	public Image getImage() {
-		if ( Math.PI/8 <= getAngle() && getAngle() <= Math.PI/4+Math.PI/8) {
+		double angle = getAngle();
+		
+		
+		//8 DIRECTIONS WALK ANIMATION 1
+		
+		//diagonal down right
+		if ( Math.PI/8 <= angle && angle <= Math.PI/4+Math.PI/8) {
 			return DDR;
 		}
-		else if (Math.PI/4 > getAngle() && -Math.PI/4 < getAngle()) {
+		//right
+		else if (Math.PI/8 > angle && -Math.PI/8 < angle) {
 			return R;
 		}
-		
+		//down
+		else if (3*Math.PI/8 < angle && 5*Math.PI/8 > angle) {
+			return D;
+		}
+		//diagonal down left
+		else if (5*Math.PI/8 <= angle &&  7*Math.PI/8 >= angle) {
+			return DDL;
+		}
+		//left
+		else if (7*Math.PI/8 < angle &&  9*Math.PI/8 > angle) {
+			return L;
+		}
+		//diagonal up left
+		else if (9*Math.PI/8 <= angle &&  11*Math.PI/8 >= angle) {
+			return DUL;
+		}
+		//up
+		else if (11*Math.PI/8 < angle &&  13*Math.PI/8 > angle) {
+			return U;
+		}
+		//diagonal up right
+		else if (13*Math.PI/8 <= angle &&  15*Math.PI/8 >= angle) {
+			return DUR;
+		}
 		return D;
 		
-		//pi/8 intervals
+		//starts at pi/8 with pi/4 intervals for each direction
+		
 	}
 	  private void loadImages(){
 	    	try{
