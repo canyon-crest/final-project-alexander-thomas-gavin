@@ -61,7 +61,7 @@ public class Enemy extends Character{
             }
         }
         if(cooldown <= 0){
-            if((double)getHealth()/getMaxHealth() < nextShield){
+            if((double)getHealth()/getMaxHealth() <= nextShield){
                 initiateShield();
             }
             else {
