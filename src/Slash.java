@@ -29,9 +29,9 @@ public class Slash extends Projectile{
                 e.setColor(Color.RED);
                 if(!hit) {
                     ((Enemy) e).takeDamage(getDamage());
-                    player.stun(2);
+                    player.stun(3);
                     player.setRectVelocity(player.getXCenter()-e.getXCenter(),player.getYCenter()-e.getYCenter());
-                    player.setVelocity(player.getAngle(),12/SCALE);
+                    player.setVelocity(player.getAngle(),2/SCALE);
                     hit = true;
                 }
             }

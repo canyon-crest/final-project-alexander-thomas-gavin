@@ -32,8 +32,8 @@ public class ArenaPanel extends GamePanel {
         loadImages();
         prevKeys = new ArrayList<Integer>();
         prevDirection = 0;
-        player = new Player(100/SCALE,100/SCALE,0.3*SCALE,60/SCALE,60/SCALE,100);
-        enemy = new Enemy(400/SCALE,400/SCALE,0.8*SCALE,90/SCALE,90/SCALE,1000,player);
+        player = new Player(100/SCALE,100/SCALE,0.6/SCALE,60/SCALE,60/SCALE,100);
+        enemy = new Enemy(400/SCALE,400/SCALE,1.6/SCALE,90/SCALE,90/SCALE,1000,player);
 
 
 
