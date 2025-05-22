@@ -1,17 +1,42 @@
 import java.awt.*;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Player extends Character{
+	public static final int SCALE = TitleScreen.SCALE;
+	public static final int W = TitleScreen.WIDTH;
+	public static final int H = TitleScreen.HEIGHT;
+	
 	private int dashCooldown = 0;
 	private int swordCooldown = 0;
 	private int iFrames = 0;
 	private int stun = 0;
 	private double speedMult = 1;
 	private double speedMultTime = 0;
+	final String PLAYERU = "images/player/PlayerU.png";
+	final String PLAYERDUR = "images/player/PlayerDUR.png";
+	final String PLAYERR = "images/player/PlayerR.png";
+	final String PLAYERDDR = "images/player/PlayerDDR.png";
+	final String PLAYERD = "images/player/PlayerD.png";
+	final String PLAYERDDL = "images/player/PlayerDDL.png";
+	final String PLAYERL = "images/player/PlayerL.png";
+	final String PLAYERDUL = "images/player/PlayerDUL.png";
+	private Image U;
+	private Image DUR;
+	private Image R;
+	private Image DDR;
+	private Image D;
+	private Image DDL;
+	private Image L;
+	private Image DUL;
+	
+	
 	private int hurt = 0;
 	private int regen = 60;
 	public Player(double xLocation, double yLocation, double friction, int width, int height, int health) {
 		super(xLocation, yLocation, friction, width, height, health);
-
+		loadImages();
 	}
 	public void changeVelocity(double direction, double amount){
 		if(stun <= 0){
@@ -74,6 +99,8 @@ public class Player extends Character{
 			destroy();
 			return true;
 		}
+		
+		
 		if(hurt == 0) {
 			setColor(Color.GREEN);
 		}
@@ -108,4 +135,54 @@ public class Player extends Character{
 		}
 		return false;
 	}
+	  private void loadImages(){
+	    	try{
+	            U = ImageIO.read(ArenaPanel.class.getResource(PLAYERU)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            U = null;
+	        }
+	    	try{
+	            DUR = ImageIO.read(ArenaPanel.class.getResource(PLAYERU)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            DUR = null;
+	        }
+	    	try{
+	            R = ImageIO.read(ArenaPanel.class.getResource(PLAYERR)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            R = null;
+	        }
+	    	try{
+	            DDR = ImageIO.read(ArenaPanel.class.getResource(PLAYERDDR)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            DDR = null;
+	        }
+	    	try{
+	            D = ImageIO.read(ArenaPanel.class.getResource(PLAYERD)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            D = null;
+	        }
+	    	try{
+	            DDL = ImageIO.read(ArenaPanel.class.getResource(PLAYERDDL)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            DDL = null;
+	        }
+	    	try{
+	            L = ImageIO.read(ArenaPanel.class.getResource(PLAYERL)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            L = null;
+	        }
+	    	try{
+	            DUL = ImageIO.read(ArenaPanel.class.getResource(PLAYERU)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            DUL = null;
+	        }
+	    }
 }
