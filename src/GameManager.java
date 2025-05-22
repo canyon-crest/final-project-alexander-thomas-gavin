@@ -63,12 +63,12 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		current.click(e.getX(),e.getY());
+		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
+		current.click(e.getX(),e.getY());
 	}
 
 	@Override
@@ -93,5 +93,6 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		frame.repaint();
 		frame.revalidate();
 		current.requestFocusInWindow();
+		
 	}
 }

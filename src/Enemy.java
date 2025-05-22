@@ -94,11 +94,11 @@ public class Enemy extends Character{
     public void initiateDash(){
         dashX = Math.random()*(TitleScreen.WIDTH-84)/SCALE+(double)42/SCALE;
         dashY = Math.random()*(TitleScreen.HEIGHT-230)/SCALE+120d/SCALE;
-        Indicator i = new Indicator(dashX,dashY,50/SCALE,50/SCALE,15);
+        Indicator i = new Indicator(dashX,dashY,50/SCALE,50/SCALE,25);
         i.moveCentered(dashX,dashY);
-        dashProgress = 30;
+        dashProgress = 40;
         cooldown = 60;
-        noAction = 25;
+        noAction = 35;
     }
     public void initiateEntropy(){
         double angleDiff = 0;

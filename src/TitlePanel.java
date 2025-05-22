@@ -30,9 +30,12 @@ public class TitlePanel extends GamePanel {
     private int starY;
     private int titleY;
     private double oscilation;
+    private boolean transitioning;
+    private int transitionTimer;
 
     public TitlePanel(GameManager manager, JFrame frame){
         super(manager, frame);
+        transitioning = false;
         background = null;
         //stars = null;
         stars1 = null;
@@ -44,7 +47,7 @@ public class TitlePanel extends GamePanel {
         titleY = 0;
         starX = 0;
         starY = 0;
-
+        transitionTimer = 30;
         oscilation = 0;
 
         setBackground(Color.cyan);
@@ -104,13 +107,16 @@ public class TitlePanel extends GamePanel {
     }
     public void click(int x, int y){
         if(start.click()){
-            getGameManager().startArena();
+        	transitioning = true;
+            
         }
     }
+    
     public void update(ArrayList<Integer> keys){
 //    	Point loc = MouseInfo.getPointerInfo().getLocation();
 //        Point loc2 = this.getLocationOnScreen();
 //        Point location = new Point((int)(loc.getX()-loc2.getX()),(int)(loc.getY()-loc2.getY()));
+    	
     	Point location = this.getMousePosition();
     	if(location == null) {
     		location = new Point(0,0);
@@ -135,6 +141,13 @@ public class TitlePanel extends GamePanel {
         if(oscilation > 2*Math.PI){
             oscilation -= 2*Math.PI;
         }
+        if(transitioning) {
+    		transitionTimer --;
+    		if(transitionTimer <= 0) {
+    			getGameManager().startArena();
+    		}
+    	}
+        
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -144,6 +157,10 @@ public class TitlePanel extends GamePanel {
         g.drawImage(stars3, (int)(starX*2.2), (int)(starY*2.2), null);
         g.drawImage(title,titleX,titleY,null);
         g.drawImage(start.getImage(),0,0,null);
+        if(transitioning) {
+        	g.setColor(new Color(0,0,0,(30-transitionTimer)*255/30));
+        	g.fillRect(0, 0, TitleScreen.WIDTH/SCALE, TitleScreen.HEIGHT/SCALE);
+        }
 
     }
 

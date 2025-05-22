@@ -217,11 +217,12 @@ public class ArenaPanel extends GamePanel {
             }
             xLocHealth += 110/SCALE;
         }
+        g.setColor(Color.GRAY);
         for(int i = 100; i <= enemyShield; i+=100){
             g.fillRect(xLocHealth,900/SCALE,100/SCALE,50/SCALE);
             xLocHealth += 110/SCALE;
         }
-        if(enemy.getHealth()%100 > 0) {
+        if(enemyShield%100 > 0) {
             g.fillRect(xLocHealth, 900 / SCALE, ((enemyShield % 100)) / SCALE, 50 / SCALE);
         }
 
