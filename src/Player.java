@@ -8,6 +8,7 @@ public class Player extends Character{
 	private double speedMult = 1;
 	private double speedMultTime = 0;
 	private int hurt = 0;
+	private int regen = 60;
 	public Player(double xLocation, double yLocation, double friction, int width, int height, int health) {
 		super(xLocation, yLocation, friction, width, height, health);
 
@@ -46,6 +47,7 @@ public class Player extends Character{
 			super.takeDamage(amount);
 		}
 	}
+
 	public void setIFrames(int amount){
 		if(amount > iFrames){
 			iFrames = amount;
@@ -96,6 +98,13 @@ public class Player extends Character{
 		}
 		if(stun > 0){
 			stun--;
+		}
+		if(regen<=0){
+			super.takeDamage(-1);
+			regen = 60;
+		}
+		else{
+			regen--;
 		}
 		return false;
 	}

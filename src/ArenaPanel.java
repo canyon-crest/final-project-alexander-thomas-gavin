@@ -182,6 +182,55 @@ public class ArenaPanel extends GamePanel {
             }
         }
         g.drawImage(mainwall, 0, 0, null);
+        int xLocHealth = 100/SCALE;
+        g.setColor(Color.RED);
+        for(int i = 10; i <= player.getHealth(); i+=10){
+            g.fillRect(xLocHealth,100/SCALE,30/SCALE,50/SCALE);
+            xLocHealth += 40/SCALE;
+        }
+        if(player.getHealth()%10 > 0) {
+            g.fillRect(xLocHealth, 100 / SCALE, (3*(player.getHealth() % 10)) / SCALE, 50 / SCALE);
+        }
+        xLocHealth = 100/SCALE;
+        for(int i = 10; i <= player.getMaxHealth(); i+=10){
+            g.setColor(Color.WHITE);
+            g.drawRect(xLocHealth-1,100/SCALE-1,30/SCALE+1,50/SCALE+1);
+            xLocHealth += 40/SCALE;
+        }
+        xLocHealth = 100/SCALE;
+        g.setColor(new Color(53,24,87));
+        for(int i = 100; i <= enemy.getHealth(); i+=100){
+            g.fillRect(xLocHealth,900/SCALE,100/SCALE,50/SCALE);
+            xLocHealth += 110/SCALE;
+        }
+        int enemyShield = enemy.getShield();
+        if(enemy.getHealth()%100 > 0) {
+            g.fillRect(xLocHealth, 900 / SCALE, ((enemy.getHealth() % 100)) / SCALE, 50 / SCALE);
+            g.setColor(Color.GRAY);
+            if(enemyShield >= 100-(enemy.getHealth() % 100)) {
+                g.fillRect(xLocHealth + (enemy.getHealth() % 100)/SCALE, 900 / SCALE, 100/SCALE - ((enemy.getHealth() % 100)) / SCALE, 50 / SCALE);
+                enemyShield -= 100-(enemy.getHealth() % 100);
+            }
+            else if(enemyShield > 0){
+                g.fillRect(xLocHealth + (enemy.getHealth() % 100)/SCALE, 900 / SCALE, ((enemyShield % 100)) / SCALE, 50 / SCALE);
+                enemyShield = 0;
+            }
+            xLocHealth += 110/SCALE;
+        }
+        for(int i = 100; i <= enemyShield; i+=100){
+            g.fillRect(xLocHealth,900/SCALE,100/SCALE,50/SCALE);
+            xLocHealth += 110/SCALE;
+        }
+        if(enemy.getHealth()%100 > 0) {
+            g.fillRect(xLocHealth, 900 / SCALE, ((enemyShield % 100)) / SCALE, 50 / SCALE);
+        }
+
+        xLocHealth = 100/SCALE;
+        for(int i = 100; i <= enemy.getMaxHealth(); i+=100){
+            g.setColor(Color.WHITE);
+            g.drawRect(xLocHealth-1,900/SCALE-1,100/SCALE+1,50/SCALE+1);
+            xLocHealth += 110/SCALE;
+        }
         g.setColor(Color.CYAN);
 
 

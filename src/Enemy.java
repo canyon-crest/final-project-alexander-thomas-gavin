@@ -10,11 +10,27 @@ public class Enemy extends Character{
     private double dashY;
     private int dashProgress;
     private int entropyProgress;
+    private int shield = 0;
+    private double nextShield = 0.5;
 
     public Enemy(double xLocation, double yLocation, double friction, int width, int height, int health, Entity mortalEnemy) {
         super(xLocation, yLocation, friction, width, height, health);
         this.mortalEnemy = mortalEnemy;
         setColor(Color.YELLOW);
+    }
+    public int getShield(){
+        return shield;
+    }
+    public void takeDamage(int amount){
+        if(shield <= 0 || amount < 0){
+            super.takeDamage(amount);
+        }
+        else{
+            shield -= amount;
+            if(shield < 0){
+                shield = 0;
+            }
+        }
     }
     public boolean tick(){
         super.tick();
@@ -45,13 +61,17 @@ public class Enemy extends Character{
             }
         }
         if(cooldown <= 0){
-            double attackChance = Math.random();
-            if(attackChance <= 0.025){
-                initiateDash();
-
+            if((double)getHealth()/getMaxHealth() < nextShield){
+                initiateShield();
             }
-            else if(attackChance <= 0.035){
-                initiateEntropy();
+            else {
+                double attackChance = Math.random();
+                if (attackChance <= 0.025) {
+                    initiateDash();
+
+                } else if (attackChance <= 0.035) {
+                    initiateEntropy();
+                }
             }
         }
         else{
@@ -82,7 +102,7 @@ public class Enemy extends Character{
     }
     public void initiateEntropy(){
         double angleDiff = 0;
-        double x = Math.random()*TitleScreen.WIDTH/SCALE;
+        double x = Math.random()*((double)TitleScreen.WIDTH/SCALE-86d/SCALE)+43d/SCALE;
 
         if(mortalEnemy.getXCenter() != x) {
             angleDiff = Math.atan(mortalEnemy.getYCenter() / (mortalEnemy.getXCenter()-x));
@@ -98,6 +118,13 @@ public class Enemy extends Character{
         entropyProgress = 30;
         cooldown = 200;
         noAction = 30;
+    }
+    public void initiateShield(){
+        shield += getMaxHealth()/4;
+        cooldown = 90;
+        noAction = 60;
+        nextShield -= 0.25;
+
     }
 
 

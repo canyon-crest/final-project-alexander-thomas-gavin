@@ -16,7 +16,7 @@ public class Slash extends Projectile{
     }
     public boolean tick(){
         setColor(Color.WHITE);
-        move(player.getX()+ player.getWidth()/2-getWidth()/2+offsetX,player.getY()+ player.getHeight()/2-getHeight()/2+offsetY);
+        move(player.getX()+ player.getWidth()/2d-getWidth()/2d+offsetX,player.getY()+ player.getHeight()/2d-getHeight()/2d+offsetY);
         return super.tick();
 
     }
