@@ -173,10 +173,17 @@ public class Player extends Character{
 		else if (13*Math.PI/8 <= angle &&  15*Math.PI/8 >= angle) {
 			return DUR;
 		}
+
 		return D;
 		
 		//starts at pi/8 with pi/4 intervals for each direction
 		
+	}
+	public int getImageX(){
+		return (int)getXCenter()-W/(SCALE*2);
+	}
+	public int getImageY(){
+		return (int)getYCenter()-H/(SCALE*2);
 	}
 	  private void loadImages(){
 	    	try{
@@ -186,7 +193,7 @@ public class Player extends Character{
 	            U = null;
 	        }
 	    	try{
-	            DUR = ImageIO.read(ArenaPanel.class.getResource(PLAYERU)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	            DUR = ImageIO.read(ArenaPanel.class.getResource(PLAYERDUR)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
 	        }
 	        catch(IOException e) {
 	            DUR = null;
@@ -222,7 +229,7 @@ public class Player extends Character{
 	            L = null;
 	        }
 	    	try{
-	            DUL = ImageIO.read(ArenaPanel.class.getResource(PLAYERU)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	            DUL = ImageIO.read(ArenaPanel.class.getResource(PLAYERDUL)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
 	        }
 	        catch(IOException e) {
 	            DUL = null;
