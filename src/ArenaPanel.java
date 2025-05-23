@@ -32,7 +32,7 @@ public class ArenaPanel extends GamePanel {
         loadImages();
         prevKeys = new ArrayList<Integer>();
         prevDirection = 0;
-        player = new Player(100/SCALE,100/SCALE,0.6/SCALE,60/SCALE,60/SCALE,100);
+        player = new Player(100/SCALE,100/SCALE,1.2/SCALE,60/SCALE,60/SCALE,100);
         enemy = new Enemy(400/SCALE,400/SCALE,1.6/SCALE,90/SCALE,90/SCALE,1000,player);
 
 
@@ -177,6 +177,9 @@ public class ArenaPanel extends GamePanel {
                 else{
                     g.drawLine((int) eb.getX(), (int) eb.getY(), eb.getEndX(), eb.getEndY());
                 }
+            }
+            else if(e instanceof Slam) {
+            	g.drawOval((int)e.getX()-e.getWidth()/2, (int)e.getY()-e.getWidth()/2, e.getWidth(), e.getWidth());
             }
             else {
                 g.drawRect((int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight());

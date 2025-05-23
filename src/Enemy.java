@@ -10,8 +10,10 @@ public class Enemy extends Character{
     private double dashY;
     private int dashProgress;
     private int entropyProgress;
+    private double slamProgress;
     private int shield = 0;
     private double nextShield = 0.5;
+    
 
     public Enemy(double xLocation, double yLocation, double friction, int width, int height, int health, Entity mortalEnemy) {
         super(xLocation, yLocation, friction, width, height, health);
@@ -33,6 +35,7 @@ public class Enemy extends Character{
         }
     }
     public boolean tick(){
+    	double distance = Math.sqrt(Math.pow(mortalEnemy.getXCenter()-getXCenter(), 2)+Math.pow(mortalEnemy.getYCenter()-getYCenter(), 2));
         super.tick();
         setColor(Color.YELLOW);
         if(noAction<=0) {
@@ -72,6 +75,15 @@ public class Enemy extends Character{
                 } else if (attackChance <= 0.035) {
                     initiateEntropy();
                 }
+                else if(attackChance <= 0.055){
+                	if(distance < 200/SCALE+(getWidth()+getHeight())/(4*SCALE)) {
+                		initiateSlam();
+                	}
+                	else {
+                		initiateDash2();
+                	}
+                }
+                
             }
         }
         else{
@@ -89,6 +101,9 @@ public class Enemy extends Character{
         if(entropyProgress > 0){
             entropyProgress--;
         }
+        if(slamProgress > 0) {
+        	slamProgress --;
+        }
         return false;
     }
     public void initiateDash(){
@@ -99,6 +114,21 @@ public class Enemy extends Character{
         dashProgress = 40;
         cooldown = 60;
         noAction = 35;
+    }
+    public void initiateDash2(){
+        dashX = mortalEnemy.getXCenter();
+        dashY = mortalEnemy.getYCenter();
+        Indicator i = new Indicator(dashX,dashY,50/SCALE,50/SCALE,25);
+        i.moveCentered(dashX,dashY);
+        dashProgress = 40;
+        cooldown = 50;
+        noAction = 35;
+    }
+    public void initiateSlam() {
+    	Slam s = new Slam(getXCenter(),getYCenter(),300/SCALE);
+    	noAction = 40;
+    	slamProgress = 35;
+    	cooldown = 80;
     }
     public void initiateEntropy(){
         double angleDiff = 0;
