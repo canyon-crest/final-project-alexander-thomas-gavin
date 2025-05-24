@@ -5,8 +5,8 @@ import javax.imageio.ImageIO;
 
 public class Player extends Character{
 	public static final int SCALE = TitleScreen.SCALE;
-	public static final int W = 96;
-	public static final int H = 96;
+	public static final int W = 288;
+	public static final int H = 288;
 	
 	private int dashCooldown = 0;
 	private int swordCooldown = 0;
@@ -15,6 +15,7 @@ public class Player extends Character{
 	private double speedMult = 1;
 	private double speedMultTime = 0;
 	private double currentDirection;
+	//Player Move Directions
 	final String PLAYERU = "images/player/PlayerU.png";
 	final String PLAYERDUR = "images/player/PlayerDUR.png";
 	final String PLAYERR = "images/player/PlayerR.png";
@@ -31,7 +32,25 @@ public class Player extends Character{
 	private Image DDL;
 	private Image L;
 	private Image DUL;
-	
+	//Slash
+	//Right
+	final String SLASHR1 = "images/player/slash/right/slashR1.png";
+	final String SLASHR2 = "images/player/slash/right/slashR2.png";
+	final String SLASHR3 = "images/player/slash/right/slashR3.png";
+	final String SLASHR4 = "images/player/slash/right/slashR4.png";
+	private Image SR1;
+	private Image SR2;
+	private Image SR3;
+	private Image SR4;
+	//Left
+	final String SLASHL1 = "images/player/slash/left/slashL1.png";
+	final String SLASHL2 = "images/player/slash/left/slashL2.png";
+	final String SLASHL3 = "images/player/slash/left/slashL3.png";
+	final String SLASHL4 = "images/player/slash/left/slashL4.png";
+	private Image SL1;
+	private Image SL2;
+	private Image SL3;
+	private Image SL4;
 	
 	private int hurt = 0;
 	private int regen = 60;
@@ -151,6 +170,19 @@ public class Player extends Character{
 		}
 		//right
 		else if (Math.PI/8 > angle && -Math.PI/8 < angle) {
+			//SWING RIGHT ANIMATION
+			if (swordCooldown > 8) {
+				return SR1;
+			}
+			else if (swordCooldown > 6) {
+				return SR2;
+			}
+			else if (swordCooldown > 4) {
+				return SR3;
+			}
+			else if (swordCooldown > 1) {
+				return SR4;
+			}
 			return R;
 		}
 		//down
@@ -163,6 +195,19 @@ public class Player extends Character{
 		}
 		//left
 		else if (7*Math.PI/8 < angle &&  9*Math.PI/8 > angle) {
+			//SWING LEFT ANIMATION
+			if (swordCooldown > 8) {
+				return SL1;
+			}
+			else if (swordCooldown > 6) {
+				return SL2;
+			}
+			else if (swordCooldown > 4) {
+				return SL3;
+			}
+			else if (swordCooldown > 1) {
+				return SL4;
+			}
 			return L;
 		}
 		//diagonal up left
@@ -190,6 +235,58 @@ public class Player extends Character{
 		return (int)getYCenter()-H/(SCALE*2);
 	}
 	  private void loadImages(){
+		  //LEFT SLASH
+		  try{
+	            SL1 = ImageIO.read(ArenaPanel.class.getResource(SLASHL1)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SL1 = null;
+	        }
+		  try{
+	            SL2 = ImageIO.read(ArenaPanel.class.getResource(SLASHL2)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SL2 = null;
+	        }
+		  try{
+	            SL3 = ImageIO.read(ArenaPanel.class.getResource(SLASHL3)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SL3 = null;
+	        }
+		  try{
+	            SL4 = ImageIO.read(ArenaPanel.class.getResource(SLASHL4)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SL4 = null;
+	        }
+		  //RIGHT SLASH
+		  try{
+	            SR1 = ImageIO.read(ArenaPanel.class.getResource(SLASHR1)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SR1 = null;
+	        }
+		  try{
+	            SR2 = ImageIO.read(ArenaPanel.class.getResource(SLASHR2)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SR2 = null;
+	        }
+		  try{
+	            SR3 = ImageIO.read(ArenaPanel.class.getResource(SLASHR3)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SR3 = null;
+	        }
+		  try{
+	            SR4 = ImageIO.read(ArenaPanel.class.getResource(SLASHR4)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SR4 = null;
+	        }
+		  
+		  //8 DIRECTIONS
 	    	try{
 	            U = ImageIO.read(ArenaPanel.class.getResource(PLAYERU)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
 	        }

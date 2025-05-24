@@ -182,6 +182,7 @@ public class ArenaPanel extends GamePanel {
             else if(e instanceof Slam) {
             	g.drawOval((int)e.getX()-e.getWidth()/2, (int)e.getY()-e.getWidth()/2, e.getWidth(), e.getWidth());
             }
+           
             else {
                 g.drawRect((int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight());
             }
