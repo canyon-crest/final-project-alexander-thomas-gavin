@@ -14,6 +14,7 @@ public class Player extends Character{
 	private int stun = 0;
 	private double speedMult = 1;
 	private double speedMultTime = 0;
+	private double currentDirection;
 	final String PLAYERU = "images/player/PlayerU.png";
 	final String PLAYERDUR = "images/player/PlayerDUR.png";
 	final String PLAYERR = "images/player/PlayerR.png";
@@ -42,6 +43,9 @@ public class Player extends Character{
 		if(stun <= 0){
 			setVelocity(direction,amount*speedMult);
 		}
+	}
+	public void setCurrentDirection(double currentDirection){
+		this.currentDirection = currentDirection;
 	}
 	public void swordAttack(double direction, int width, int height){
 		if(swordCooldown == 0){
@@ -136,7 +140,7 @@ public class Player extends Character{
 		return false;
 	}
 	public Image getImage() {
-		double angle = getAngle();
+		double angle = currentDirection;
 		
 		
 		//8 DIRECTIONS WALK ANIMATION 1

@@ -150,6 +150,7 @@ public class ArenaPanel extends GamePanel {
         if(space && !prevSpace){
             player.dash(direction,26/SCALE);
         }
+        player.setCurrentDirection(direction);
         prevDirection = direction;
 
 
