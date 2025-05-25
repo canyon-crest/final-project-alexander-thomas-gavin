@@ -54,6 +54,24 @@ public class Player extends Character{
 	private Image SL3;
 	private Image SL4;
 	private Animation SL;
+	//DDR
+	final String SLASHDDR1 = "images/player/slash/DDR/slashDDR1.png";
+	final String SLASHDDR2 = "images/player/slash/DDR/slashDDR2.png";
+	final String SLASHDDR3 = "images/player/slash/DDR/slashDDR3.png";
+	private Image SDDR1;
+	private Image SDDR2;
+	private Image SDDR3;
+	private Animation SDDR;
+	//DDL 
+	final String SLASHDDL1 = "images/player/slash/DDL/slashDDL1.png";
+	final String SLASHDDL2 = "images/player/slash/DDL/slashDDL2.png";
+	final String SLASHDDL3 = "images/player/slash/DDL/slashDDL3.png";
+	private Image SDDL1;
+	private Image SDDL2;
+	private Image SDDL3;
+	private Animation SDDL;
+	
+	
 	
 	private int hurt = 0;
 	private int regen = 60;
@@ -64,6 +82,7 @@ public class Player extends Character{
 
 	}
 	private void createAnimations(){
+		//Swing Left
 		ArrayList<Image> animationImages = new ArrayList<>();
 		animationImages.add(SL1);
 		animationImages.add(SL2);
@@ -75,6 +94,7 @@ public class Player extends Character{
 		timings.add(4);
 		timings.add(3);
 		SL = new Animation(animationImages,timings);
+		//Swing Right
 		animationImages = new ArrayList<>();
 		timings = new ArrayList<>();
 		animationImages.add(SR1);
@@ -86,6 +106,30 @@ public class Player extends Character{
 		timings.add(4);
 		timings.add(3);
 		SR = new Animation(animationImages,timings);
+		//Swing Diagonal Down Right
+		animationImages = new ArrayList<>();
+		timings = new ArrayList<>();
+		animationImages.add(SDDR1);
+		animationImages.add(SDDR2);
+		animationImages.add(SDDR3);
+		animationImages.add(SDDR3);
+		timings.add(2);
+		timings.add(1);
+		timings.add(4);
+		timings.add(3);
+		SDDR = new Animation(animationImages, timings);
+		//Swing Diagonal Down Left
+		animationImages = new ArrayList<>();
+		timings = new ArrayList<>();
+		animationImages.add(SDDL1);
+		animationImages.add(SDDL2);
+		animationImages.add(SDDL3);
+		animationImages.add(SDDL3);
+		timings.add(2);
+		timings.add(1);
+		timings.add(4);
+		timings.add(3);
+		SDDL = new Animation(animationImages, timings);
 	}
 	public void changeVelocity(double direction, double amount){
 		if(stun <= 0){
@@ -107,7 +151,12 @@ public class Player extends Character{
 			if (7*Math.PI/8 < direction &&  9*Math.PI/8 > direction){
 				SL.startAnimation();
 			}
-			setSpeedMult(0.5,10);
+			if ( Math.PI/8 <= direction && direction <= Math.PI/4+Math.PI/8) {
+				SDDR.startAnimation();
+			}
+			if (5*Math.PI/8 <= direction &&  7*Math.PI/8 >= direction) {
+				SDDL.startAnimation();
+			}
 		}
 	}
 	public void dash(double direction,double amount){
@@ -154,6 +203,8 @@ public class Player extends Character{
 	public boolean tick(){
 		SL.tick();
 		SR.tick();
+		SDDR.tick();
+		SDDL.tick();
 		super.tick();
 		if(getHealth() == 0){
 			destroy();
@@ -201,19 +252,25 @@ public class Player extends Character{
 		
 		//8 DIRECTIONS WALK ANIMATION 1
 		
-		//diagonal down right
+		
 		if(SR.animationStarted()) {
 			return SR.getCurrentImage();
 		}
 		else if(SL.animationStarted()){
 			return SL.getCurrentImage();
 		}
+		else if (SDDR.animationStarted()) {
+			return SDDR.getCurrentImage();
+		}
+		else if (SDDL.animationStarted()) {
+			return SDDL.getCurrentImage();
+		}
+		//diagonal down right
 		else if ( Math.PI/8 <= angle && angle <= Math.PI/4+Math.PI/8) {
 			return DDR;
 		}
 		//right
 		else if (Math.PI/8 > angle && -Math.PI/8 < angle) {
-			//SWING RIGHT ANIMATION
 
 			return R;
 		}
@@ -255,6 +312,44 @@ public class Player extends Character{
 		return (int)getYCenter()-H/(SCALE*2);
 	}
 	  private void loadImages(){
+		  //DDL SLASH
+		  try{
+	            SDDL1 = ImageIO.read(ArenaPanel.class.getResource(SLASHDDL1)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SDDL1 = null;
+	        }
+		  try{
+	            SDDL2 = ImageIO.read(ArenaPanel.class.getResource(SLASHDDL2)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SDDL2 = null;
+	        }
+		  try{
+	            SDDL3 = ImageIO.read(ArenaPanel.class.getResource(SLASHDDL3)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SDDL3 = null;
+	        }
+		  //DDR SLASH
+		  try{
+	            SDDR1 = ImageIO.read(ArenaPanel.class.getResource(SLASHDDR1)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SDDR1 = null;
+	        }
+		  try{
+	            SDDR2 = ImageIO.read(ArenaPanel.class.getResource(SLASHDDR2)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SDDR2 = null;
+	        }
+		  try{
+	            SDDR3 = ImageIO.read(ArenaPanel.class.getResource(SLASHDDR3)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
+	        }
+	        catch(IOException e) {
+	            SDDR3 = null;
+	        }
 		  //LEFT SLASH
 		  try{
 	            SL1 = ImageIO.read(ArenaPanel.class.getResource(SLASHL1)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
