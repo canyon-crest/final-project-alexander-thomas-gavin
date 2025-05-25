@@ -39,6 +39,13 @@ public class Animation {
         timer = timing.get(0);
         currentImage = 0;
     }
+    public boolean animationStarted(){
+        return started;
+    }
+    public void addImage(Image image, int nextTiming){
+        images.add(image);
+        timing.add(nextTiming);
+    }
     public void stopAnimation(){
         started = false;
     }
@@ -46,7 +53,13 @@ public class Animation {
         if(started){
             if(timer == 0){
                 currentImage +=1;
-                timer = timing.get(currentImage);
+                if(currentImage >= images.size()){
+                    stopAnimation();
+                }
+                else {
+                    timer = timing.get(currentImage);
+                }
+
             }
             else {
                 timer--;

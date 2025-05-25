@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -42,6 +43,7 @@ public class Player extends Character{
 	private Image SR2;
 	private Image SR3;
 	private Image SR4;
+	private Animation SR;
 	//Left
 	final String SLASHL1 = "images/player/slash/left/slashL1.png";
 	final String SLASHL2 = "images/player/slash/left/slashL2.png";
@@ -51,12 +53,39 @@ public class Player extends Character{
 	private Image SL2;
 	private Image SL3;
 	private Image SL4;
+	private Animation SL;
 	
 	private int hurt = 0;
 	private int regen = 60;
 	public Player(double xLocation, double yLocation, double friction, int width, int height, int health) {
 		super(xLocation, yLocation, friction, width, height, health);
 		loadImages();
+		createAnimations();
+
+	}
+	private void createAnimations(){
+		ArrayList<Image> animationImages = new ArrayList<>();
+		animationImages.add(SL1);
+		animationImages.add(SL2);
+		animationImages.add(SL3);
+		animationImages.add(SL4);
+		ArrayList<Integer> timings = new ArrayList<>();
+		timings.add(2);
+		timings.add(1);
+		timings.add(4);
+		timings.add(3);
+		SL = new Animation(animationImages,timings);
+		animationImages = new ArrayList<>();
+		timings = new ArrayList<>();
+		animationImages.add(SR1);
+		animationImages.add(SR2);
+		animationImages.add(SR3);
+		animationImages.add(SR4);
+		timings.add(2);
+		timings.add(1);
+		timings.add(4);
+		timings.add(3);
+		SR = new Animation(animationImages,timings);
 	}
 	public void changeVelocity(double direction, double amount){
 		if(stun <= 0){
@@ -72,6 +101,12 @@ public class Player extends Character{
 					width ,height,this,(int)((width*Math.cos(direction))/2+(getWidth()*Math.cos(direction))/2),
 					(int)((height*Math.sin(direction))/2+(getHeight()*Math.sin(direction))/2));
 			swordCooldown = 10;
+			if (Math.PI/8 > direction && -Math.PI/8 < direction){
+				SR.startAnimation();
+			}
+			if (7*Math.PI/8 < direction &&  9*Math.PI/8 > direction){
+				SL.startAnimation();
+			}
 			setSpeedMult(0.5,10);
 		}
 	}
@@ -117,6 +152,8 @@ public class Player extends Character{
 		}
 	}
 	public boolean tick(){
+		SL.tick();
+		SR.tick();
 		super.tick();
 		if(getHealth() == 0){
 			destroy();
@@ -165,24 +202,19 @@ public class Player extends Character{
 		//8 DIRECTIONS WALK ANIMATION 1
 		
 		//diagonal down right
-		if ( Math.PI/8 <= angle && angle <= Math.PI/4+Math.PI/8) {
+		if(SR.animationStarted()) {
+			return SR.getCurrentImage();
+		}
+		else if(SL.animationStarted()){
+			return SL.getCurrentImage();
+		}
+		else if ( Math.PI/8 <= angle && angle <= Math.PI/4+Math.PI/8) {
 			return DDR;
 		}
 		//right
 		else if (Math.PI/8 > angle && -Math.PI/8 < angle) {
 			//SWING RIGHT ANIMATION
-			if (swordCooldown > 8) {
-				return SR1;
-			}
-			else if (swordCooldown > 6) {
-				return SR2;
-			}
-			else if (swordCooldown > 4) {
-				return SR3;
-			}
-			else if (swordCooldown > 1) {
-				return SR4;
-			}
+
 			return R;
 		}
 		//down
@@ -196,18 +228,6 @@ public class Player extends Character{
 		//left
 		else if (7*Math.PI/8 < angle &&  9*Math.PI/8 > angle) {
 			//SWING LEFT ANIMATION
-			if (swordCooldown > 8) {
-				return SL1;
-			}
-			else if (swordCooldown > 6) {
-				return SL2;
-			}
-			else if (swordCooldown > 4) {
-				return SL3;
-			}
-			else if (swordCooldown > 1) {
-				return SL4;
-			}
 			return L;
 		}
 		//diagonal up left
