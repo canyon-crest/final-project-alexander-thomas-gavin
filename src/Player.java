@@ -93,7 +93,7 @@ public class Player extends Character{
 		timings.add(1);
 		timings.add(4);
 		timings.add(3);
-		SL = new Animation(animationImages,timings);
+		SL = new Animation(animationImages,timings,false);
 		//Swing Right
 		animationImages = new ArrayList<>();
 		timings = new ArrayList<>();
@@ -105,7 +105,7 @@ public class Player extends Character{
 		timings.add(1);
 		timings.add(4);
 		timings.add(3);
-		SR = new Animation(animationImages,timings);
+		SR = new Animation(animationImages,timings,false);
 		//Swing Diagonal Down Right
 		animationImages = new ArrayList<>();
 		timings = new ArrayList<>();
@@ -117,7 +117,7 @@ public class Player extends Character{
 		timings.add(1);
 		timings.add(4);
 		timings.add(3);
-		SDDR = new Animation(animationImages, timings);
+		SDDR = new Animation(animationImages, timings,false);
 		//Swing Diagonal Down Left
 		animationImages = new ArrayList<>();
 		timings = new ArrayList<>();
@@ -129,7 +129,7 @@ public class Player extends Character{
 		timings.add(1);
 		timings.add(4);
 		timings.add(3);
-		SDDL = new Animation(animationImages, timings);
+		SDDL = new Animation(animationImages, timings,false);
 	}
 	public void changeVelocity(double direction, double amount){
 		if(stun <= 0){
@@ -145,6 +145,7 @@ public class Player extends Character{
 					width ,height,this,(int)((width*Math.cos(direction))/2+(getWidth()*Math.cos(direction))/2),
 					(int)((height*Math.sin(direction))/2+(getHeight()*Math.sin(direction))/2));
 			swordCooldown = 10;
+			setSpeedMult(0.5,10);
 			if (Math.PI/8 > direction && -Math.PI/8 < direction){
 				SR.startAnimation();
 			}

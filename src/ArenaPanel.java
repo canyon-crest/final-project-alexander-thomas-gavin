@@ -46,7 +46,7 @@ public class ArenaPanel extends GamePanel {
     		player.swordAttack(prevDirection,(int)(player.getWidth()+Math.abs(player.getWidth()*Math.cos(prevDirection))/3+Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()+Math.abs(player.getWidth()*Math.sin(prevDirection))/3+Math.abs(player.getWidth()*Math.cos(prevDirection))));
     	}
     	else {
-    		player.swordAttack(prevDirection,(int)(player.getWidth()/1.5+Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()/1.5+Math.abs(player.getWidth()*Math.cos(prevDirection))));
+    		player.swordAttack(prevDirection,(int)(player.getWidth()+Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()+Math.abs(player.getWidth()*Math.cos(prevDirection))));
     	}
     }
     

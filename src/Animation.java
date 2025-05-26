@@ -7,22 +7,26 @@ public class Animation {
     private int currentImage;
     private boolean started;
     private int timer;
+    private boolean repeating;
     public Animation(){
         images = new ArrayList<Image>();
         timing = new ArrayList<Integer>();
+        repeating = false;
         currentImage = 0;
         started = false;
         timer = 0;
     }
-    public Animation(ArrayList<Image> images,ArrayList<Integer> timing){
+    public Animation(ArrayList<Image> images,ArrayList<Integer> timing,boolean repeating){
         this.images = images;
         this.timing = timing;
+        this.repeating = repeating;
         currentImage = 0;
         started = false;
         timer = 0;
     }
-    public Animation(ArrayList<Image> images,int times){
+    public Animation(ArrayList<Image> images,int times, boolean repeating){
         this.images = images;
+        this.repeating = repeating;
         this.timing = new ArrayList<Integer>();
         for(int i = 0; i < images.size(); i++){
             this.timing.add(times);
@@ -54,7 +58,12 @@ public class Animation {
             if(timer == 0){
                 currentImage +=1;
                 if(currentImage >= images.size()){
-                    stopAnimation();
+                    if(repeating){
+                        startAnimation();
+                    }
+                    else {
+                        stopAnimation();
+                    }
                 }
                 else {
                     timer = timing.get(currentImage);
