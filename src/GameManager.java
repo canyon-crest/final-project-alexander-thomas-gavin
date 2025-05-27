@@ -85,8 +85,21 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	public void mouseExited(MouseEvent e) {
 
 	}
+	public void returnToMain() {
+		frame.remove(current);
+		current = title;
+		Entity.clearEntities();
+		arena = new ArenaPanel(this,frame);
+		frame.add(current);
+		frame.pack();
+		frame.repaint();
+		frame.revalidate();
+		current.requestFocusInWindow();
+		title.fadeIn();
+	}
 	public void startArena(){
 		frame.remove(current);
+		title = new TitlePanel(this, frame);
 		current = arena;
 		frame.add(current);
 		frame.pack();

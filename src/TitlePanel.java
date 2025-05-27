@@ -47,7 +47,7 @@ public class TitlePanel extends GamePanel {
         titleY = 0;
         starX = 0;
         starY = 0;
-        transitionTimer = 30;
+        transitionTimer = 0;
         oscilation = 0;
 
         setBackground(Color.cyan);
@@ -107,9 +107,14 @@ public class TitlePanel extends GamePanel {
     }
     public void click(int x, int y){
         if(start.click()){
+        	transitionTimer = 30;
         	transitioning = true;
             
         }
+    }
+    public void fadeIn() {
+    	transitionTimer = 30;
+    	transitioning = false;
     }
     
     public void update(ArrayList<Integer> keys){
@@ -141,8 +146,11 @@ public class TitlePanel extends GamePanel {
         if(oscilation > 2*Math.PI){
             oscilation -= 2*Math.PI;
         }
+        if(transitionTimer > 0) {
+        	transitionTimer --;
+        }
         if(transitioning) {
-    		transitionTimer --;
+    		
     		if(transitionTimer <= 0) {
     			getGameManager().startArena();
     		}
@@ -159,6 +167,10 @@ public class TitlePanel extends GamePanel {
         g.drawImage(start.getImage(),0,0,null);
         if(transitioning) {
         	g.setColor(new Color(0,0,0,(30-transitionTimer)*255/30));
+        	g.fillRect(0, 0, TitleScreen.WIDTH/SCALE, TitleScreen.HEIGHT/SCALE);
+        }
+        else if(transitionTimer > 0) {
+        	g.setColor(new Color(0,0,0,(transitionTimer)*255/30));
         	g.fillRect(0, 0, TitleScreen.WIDTH/SCALE, TitleScreen.HEIGHT/SCALE);
         }
 

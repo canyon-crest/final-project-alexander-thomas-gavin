@@ -12,6 +12,7 @@ public class Entity {
 	private int height;
 	private int damages;
 	private Color color;
+	
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	public Entity(double xLocation, double yLocation, double friction, int width, int height, int damages){
 		this.xLocation = xLocation;
@@ -144,6 +145,9 @@ public class Entity {
 	}
 	public static void removeEntity(Entity entity) {
 		entities.remove(entity);
+	}
+	public static void clearEntities() {
+		entities = new ArrayList<Entity>();
 	}
 	public void destroy(){
 		entities.remove(this);

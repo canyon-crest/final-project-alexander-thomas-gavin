@@ -7,7 +7,7 @@ public class Slash extends Projectile{
     private int offsetY;
     private boolean hit;
     public Slash(double xLocation, double yLocation, int width, int height, Player player,int offsetX,int offsetY){
-        super(xLocation,yLocation,0,width,height,1,10,8);
+        super(xLocation,yLocation,0,width,height,1,15,8);
         this.player = player;
         this.offsetX = offsetX;
         this.offsetY = offsetY;

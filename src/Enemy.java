@@ -11,8 +11,12 @@ public class Enemy extends Character{
     private int dashProgress;
     private int entropyProgress;
     private double slamProgress;
+    private double dashChance = 0.02;
+    private double entropyChance = 0.01;
+    private double slamOrDashChance = 0.02;
     private int shield = 0;
     private double nextShield = 0.5;
+    private boolean enraged = false;
     
 
     public Enemy(double xLocation, double yLocation, double friction, int width, int height, int health, Entity mortalEnemy) {
@@ -35,6 +39,8 @@ public class Enemy extends Character{
         }
     }
     public boolean tick(){
+    	dashChance = 0.02-0.01*((getMaxHealth()-getHealth())/(double)getMaxHealth());
+    	slamOrDashChance = 0.02+0.02*((getMaxHealth()-getHealth())/(double)getMaxHealth());
     	double distance = Math.sqrt(Math.pow(mortalEnemy.getXCenter()-getXCenter(), 2)+Math.pow(mortalEnemy.getYCenter()-getYCenter(), 2));
         super.tick();
         setColor(Color.YELLOW);
@@ -66,16 +72,17 @@ public class Enemy extends Character{
         if(cooldown <= 0){
             if((double)getHealth()/getMaxHealth() <= nextShield){
                 initiateShield();
+                enraged = true;
             }
             else {
                 double attackChance = Math.random();
-                if (attackChance <= 0.025) {
+                if (attackChance <= dashChance) {
                     initiateDash();
 
-                } else if (attackChance <= 0.035) {
+                } else if (attackChance <= dashChance+entropyChance) {
                     initiateEntropy();
                 }
-                else if(attackChance <= 0.055){
+                else if(attackChance <= dashChance+entropyChance+slamOrDashChance){
                 	if(distance < 200/SCALE+(getWidth()+getHeight())/(4*SCALE)) {
                 		initiateSlam();
                 	}
@@ -96,6 +103,9 @@ public class Enemy extends Character{
 
             }
             dashProgress--;
+            if(dashProgress == 0 && enraged) {
+            	initiateSlam();
+            }
 
         }
         if(entropyProgress > 0){
@@ -129,6 +139,13 @@ public class Enemy extends Character{
     	noAction = 40;
     	slamProgress = 35;
     	cooldown = 80;
+    	if(enraged) {
+    		double direction = 0;
+    		for(int i = 0; i < 12; i++){
+                new Debris(getXCenter(),getYCenter(),40/SCALE,40/SCALE,direction);
+                direction += Math.PI/6;
+            }
+    	}
     }
     public void initiateEntropy(){
         double angleDiff = 0;

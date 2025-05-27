@@ -19,10 +19,12 @@ public class ArenaPanel extends GamePanel {
     final String BACKGROUND_IMAGE_PATH = "images/arena/arenaBackground.png";
     final String TOPWALL_IMAGE_PATH = "images/arena/arenaTopwall.png";
     final String MAINWALL_IMAGE_PATH = "images/arena/arenaMainwall.png";
+    
     private Image background;
     private Image topwall;
     private Image mainwall;
-
+    private int transitionTimer;
+    private boolean ending;
     public ArenaPanel(GameManager manager, JFrame frame){
         super(manager, frame);
         setBackground(Color.cyan);
@@ -34,19 +36,27 @@ public class ArenaPanel extends GamePanel {
         prevDirection = 0;
         player = new Player(100/SCALE,100/SCALE,1.2/SCALE,60/SCALE,60/SCALE,100);
         enemy = new Enemy(400/SCALE,400/SCALE,1.6/SCALE,90/SCALE,90/SCALE,1000,player);
+        transitionTimer = 30;
+        ending = false;
 
 
 
     }
+    public void restart() {
+    	ending = true;
+    	transitionTimer = 30;
+    }
     @Override
     public void click(int x, int y) {
+    	if(transitionTimer <= 0) {
     	
-    	if(prevDirection % (Math.PI/2d) < 0.1) {
-    		
-    		player.swordAttack(prevDirection,(int)(player.getWidth()+Math.abs(player.getWidth()*Math.cos(prevDirection))/3+Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()+Math.abs(player.getWidth()*Math.sin(prevDirection))/3+Math.abs(player.getWidth()*Math.cos(prevDirection))));
-    	}
-    	else {
-    		player.swordAttack(prevDirection,(int)(player.getWidth()+Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()+Math.abs(player.getWidth()*Math.cos(prevDirection))));
+	    	if(prevDirection % (Math.PI/2d) < 0.1) {
+	    		
+	    		player.swordAttack(prevDirection,(int)(player.getWidth()+Math.abs(player.getWidth()*Math.cos(prevDirection))/3+Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()+Math.abs(player.getWidth()*Math.sin(prevDirection))/3+Math.abs(player.getWidth()*Math.cos(prevDirection))));
+	    	}
+	    	else {
+	    		player.swordAttack(prevDirection,(int)(player.getWidth()+Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()+Math.abs(player.getWidth()*Math.cos(prevDirection))));
+	    	}
     	}
     }
     
@@ -73,88 +83,100 @@ public class ArenaPanel extends GamePanel {
 
     @Override
     public void update(ArrayList<Integer> keys) {
-        for(int i = 0; i < Entity.getAllEntities().size(); i++) {
-            if(Entity.getAllEntities().get(i).tick()){
-                i--;
-            }
-        }
-        //directions
-        boolean up = false;
-        boolean down = false;
-        boolean left = false;
-        boolean right = false;
-        //dash
-        boolean space = false;
-        boolean prevSpace = false;
-        double direction = prevDirection;
-        for(int i: keys){
-            //directions
-            if(i == KeyEvent.VK_UP || i == KeyEvent.VK_W){
-                up = true;
-            }
-            if(i == KeyEvent.VK_DOWN || i == KeyEvent.VK_S){
-                down = true;
-            }
-            if(i == KeyEvent.VK_LEFT || i == KeyEvent.VK_A){
-                left = true;
-            }
-            if(i == KeyEvent.VK_RIGHT || i == KeyEvent.VK_D){
-                right = true;
-            }
-            //dash
-            if(i == KeyEvent.VK_SPACE){
-                space = true;
-
-
-            }
-        }
-        for(int i: prevKeys){
-            if(i == KeyEvent.VK_SPACE){
-                prevSpace = true;
-
-            }
-        }
-        //moving directions
-        if(up){
-            direction = 3*Math.PI/2;
-        }
-        if(down){
-            direction = Math.PI/2;
-        }
-        if(left){
-            direction = Math.PI;
-        }
-        if(right){
-            direction = 0;
-        }
-
-
-        if(up && right){
-            direction = 7*Math.PI/4;
-        }
-        if(down && right){
-            direction = Math.PI/4;
-        }
-        if(up && left){
-            direction = 5*Math.PI/4;
-        }
-        if(down && left){
-            direction = 3*Math.PI/4;
-        }
-
-
-        if(up||down||left||right) {
-            player.changeVelocity(direction, 10/SCALE);
-        }
-        //dashing
-        if(space && !prevSpace){
-            player.dash(direction,26/SCALE);
-        }
-        player.setCurrentDirection(direction);
-        prevDirection = direction;
-
-
-        prevKeys = new ArrayList<Integer>(keys);
+    	if(transitionTimer <= 0) {
+    		
+	        for(int i = 0; i < Entity.getAllEntities().size(); i++) {
+	            if(Entity.getAllEntities().get(i).tick()){
+	                i--;
+	            }
+	        }
+	        //directions
+	        boolean up = false;
+	        boolean down = false;
+	        boolean left = false;
+	        boolean right = false;
+	        //dash
+	        boolean space = false;
+	        boolean prevSpace = false;
+	        double direction = prevDirection;
+	        for(int i: keys){
+	        	if(i == KeyEvent.VK_ESCAPE) {
+	        		restart();
+	        	}
+	            //directions
+	            if(i == KeyEvent.VK_UP || i == KeyEvent.VK_W){
+	                up = true;
+	            }
+	            if(i == KeyEvent.VK_DOWN || i == KeyEvent.VK_S){
+	                down = true;
+	            }
+	            if(i == KeyEvent.VK_LEFT || i == KeyEvent.VK_A){
+	                left = true;
+	            }
+	            if(i == KeyEvent.VK_RIGHT || i == KeyEvent.VK_D){
+	                right = true;
+	            }
+	            //dash
+	            if(i == KeyEvent.VK_SPACE){
+	                space = true;
+	
+	
+	            }
+	        }
+	        for(int i: prevKeys){
+	            if(i == KeyEvent.VK_SPACE){
+	                prevSpace = true;
+	
+	            }
+	        }
+	        //moving directions
+	        if(up){
+	            direction = 3*Math.PI/2;
+	        }
+	        if(down){
+	            direction = Math.PI/2;
+	        }
+	        if(left){
+	            direction = Math.PI;
+	        }
+	        if(right){
+	            direction = 0;
+	        }
+	
+	
+	        if(up && right){
+	            direction = 7*Math.PI/4;
+	        }
+	        if(down && right){
+	            direction = Math.PI/4;
+	        }
+	        if(up && left){
+	            direction = 5*Math.PI/4;
+	        }
+	        if(down && left){
+	            direction = 3*Math.PI/4;
+	        }
+	
+	
+	        if(up||down||left||right) {
+	            player.changeVelocity(direction, 10/SCALE);
+	        }
+	        //dashing
+	        if(space && !prevSpace){
+	            player.dash(direction,26/SCALE);
+	        }
+	        player.setCurrentDirection(direction);
+	        prevDirection = direction;
+	
+	
+	        prevKeys = new ArrayList<Integer>(keys);
+    	}
+    	else {
+    		transitionTimer--;
+    		if(ending && transitionTimer == 0) {
+    			getGameManager().returnToMain();
+    		}
+    	}
 
     }
     public void paintComponent(Graphics g){
@@ -239,6 +261,16 @@ public class ArenaPanel extends GamePanel {
             xLocHealth += 110/SCALE;
         }
         g.setColor(Color.CYAN);
+        if(transitionTimer > 0) {
+        	if(ending) {
+        		g.setColor(new Color(0,0,0,(30-transitionTimer)*255/30));
+        		g.fillRect(0, 0, TitleScreen.WIDTH/SCALE, TitleScreen.HEIGHT/SCALE);
+        	}
+        	else {
+        		g.setColor(new Color(0,0,0,(transitionTimer)*255/30));
+        		g.fillRect(0, 0, TitleScreen.WIDTH/SCALE, TitleScreen.HEIGHT/SCALE);
+        	}
+        }
 
 
     }
