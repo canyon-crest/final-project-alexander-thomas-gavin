@@ -115,11 +115,12 @@ public class ArenaPanel extends GamePanel {
 	        boolean space = false;
 	        boolean prevSpace = false;
 	        double direction = prevDirection;
+		//checks which buttons the player is pressing
 	        for(int i: keys){
 	        	if(i == KeyEvent.VK_ESCAPE) {
 	        		restart();
 	        	}
-	            //directions
+	            
 	            if(i == KeyEvent.VK_UP || i == KeyEvent.VK_W){
 	                up = true;
 	            }
@@ -139,7 +140,7 @@ public class ArenaPanel extends GamePanel {
 	
 	            }
 	        }
-
+		
 	        for(int i: prevKeys){
 	            if(i == KeyEvent.VK_SPACE){
 	                prevSpace = true;
@@ -189,6 +190,7 @@ public class ArenaPanel extends GamePanel {
 	        prevKeys = new ArrayList<Integer>(keys);
     	}
     	else {
+		//controls transitions
     		transitionTimer--;
     		if(ending && transitionTimer == 0) {
                 if(endingType==0) {
@@ -290,7 +292,7 @@ public class ArenaPanel extends GamePanel {
             xLocHealth += 110/SCALE;
         }
         g.setColor(Color.CYAN);
-        //handles transitions
+        //draws transitions
         if(transitionTimer > 0) {
         	if(ending) {
         		g.setColor(new Color(0,0,0,(30-transitionTimer)*255/30));
