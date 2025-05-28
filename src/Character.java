@@ -7,12 +7,15 @@ public class Character extends Entity {
     this.health = health;
     this.maxHealth = health;
   }
+  //return current health
   public int getHealth(){
     return health;
   }
+  //return max health
   public int getMaxHealth(){
     return maxHealth;
   }
+  //reduces the players health by an amount (bounded by 0 and max health)
   public void takeDamage(int amount){
     health -= amount;
     if(health < 0){
@@ -22,8 +25,10 @@ public class Character extends Entity {
       health = maxHealth;
     }
   }
+  //runs every tick
   public boolean tick(){
     super.tick();
+    //checks if the character is out of bounds and puts them back in bounds
     if(getX() < 42d/SCALE){
       move(42d/SCALE,getY());
     }
