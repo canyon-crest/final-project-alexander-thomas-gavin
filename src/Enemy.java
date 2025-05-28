@@ -24,9 +24,11 @@ public class Enemy extends Character{
         this.mortalEnemy = mortalEnemy;
         setColor(Color.YELLOW);
     }
+    //returns the amount of shield the enemy has
     public int getShield(){
         return shield;
     }
+    //handles the boss taking damage by either losing health or losing shield
     public void takeDamage(int amount){
         if(shield <= 0 || amount < 0){
             super.takeDamage(amount);
@@ -38,12 +40,14 @@ public class Enemy extends Character{
             }
         }
     }
+    //runs every frame
     public boolean tick(){
     	dashChance = 0.02-0.02*((getMaxHealth()-getHealth())/(double)getMaxHealth());
     	slamOrDashChance = 0.01+0.02*((getMaxHealth()-getHealth())/(double)getMaxHealth());
     	double distance = Math.sqrt(Math.pow(mortalEnemy.getXCenter()-getXCenter(), 2)+Math.pow(mortalEnemy.getYCenter()-getYCenter(), 2));
         super.tick();
         setColor(Color.YELLOW);
+        //handles boss movement
         if(noAction<=0) {
 
             setRectVelocity(getX() - mortalEnemy.getX(), getY() - mortalEnemy.getY());
@@ -59,6 +63,7 @@ public class Enemy extends Character{
             destroy();
             return true;
         }
+        //checks for collision with the player
         ArrayList<Entity> nearbyEntities = checkHitboxes();
         for (Entity e : nearbyEntities) {
             if (e instanceof Player) {
@@ -73,6 +78,7 @@ public class Enemy extends Character{
 
             }
         }
+        //handles boss abilities based on either health or random chance
         if(cooldown <= 0){
             if((double)getHealth()/getMaxHealth() <= nextShield){
                 initiateShield();
@@ -100,6 +106,7 @@ public class Enemy extends Character{
         else{
             cooldown--;
         }
+        //handles things that happen after the ability starts
         if(dashProgress > 0){
             if(dashProgress == 20){
                 setRectVelocity(dashX-getXCenter(),dashY-getYCenter());
@@ -133,6 +140,7 @@ public class Enemy extends Character{
         }
         return false;
     }
+    //starts the dash ability
     public void initiateDash(){
         dashX = Math.random()*(TitleScreen.WIDTH-84)/SCALE+(double)42/SCALE;
         dashY = Math.random()*(TitleScreen.HEIGHT-230)/SCALE+120d/SCALE;
@@ -142,6 +150,7 @@ public class Enemy extends Character{
         cooldown = 60;
         noAction = 35;
     }
+    //starts a different dash ability toward the player
     public void initiateDash2(){
         dashX = mortalEnemy.getXCenter();
         dashY = mortalEnemy.getYCenter();
@@ -151,6 +160,7 @@ public class Enemy extends Character{
         cooldown = 50;
         noAction = 35;
     }
+    //starts the slam ability
     public void initiateSlam() {
     	Slam s = new Slam(getXCenter(),getYCenter(),300/SCALE);
         if(enraged){
@@ -166,6 +176,7 @@ public class Enemy extends Character{
         }
 
     }
+    //starts the entropy beam ability
     public void initiateEntropy(){
         double angleDiff = 0;
         double x = Math.random()*((double)TitleScreen.WIDTH/SCALE-86d/SCALE)+43d/SCALE;
@@ -185,6 +196,7 @@ public class Enemy extends Character{
         cooldown = 120;
         noAction = 30;
     }
+    //starts the shield ability
     public void initiateShield(){
         shield += getMaxHealth()/4;
         cooldown = 90;
