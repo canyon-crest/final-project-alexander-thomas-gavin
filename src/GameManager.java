@@ -9,6 +9,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	private ArenaPanel arena;
 	private WinPanel win;
 	private IntroCutscenePanel intro;
+	private DeathCutscenePanel death;
 	private int highestScore;
 	private Timer timer;
 	private ArrayList<Integer> keysPressed;
@@ -19,6 +20,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		arena = new ArenaPanel(this,frame);
 		intro = new IntroCutscenePanel(this,frame);
 		win = new WinPanel(this,frame);
+		death = new DeathCutscenePanel(this,frame);
 		current = title;
 		frame.add(current);
 		frame.pack();
@@ -118,6 +120,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	public void arenaToWin(int score){
 		highestScore = Math.max(score,highestScore);
 		frame.remove(current);
+		Entity.clearEntities();
 		arena = new ArenaPanel(this, frame);
 		intro.setScore(score);
 		current = win;
@@ -130,6 +133,27 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	public void winToStart(){
 		frame.remove(current);
 		win = new WinPanel(this, frame);
+		current = title;
+		frame.add(current);
+		frame.repaint();
+		frame.revalidate();
+		current.requestFocusInWindow();
+	}
+	//runs after the player dies
+	public void arenaToLose(){
+		frame.remove(current);
+		arena = new ArenaPanel(this, frame);
+		Entity.clearEntities();
+		current = death;
+		frame.add(current);
+		frame.repaint();
+		frame.revalidate();
+		current.requestFocusInWindow();
+	}
+	//runs when the player presses retry
+	public void loseToTitle(){
+		frame.remove(current);
+		death = new DeathCutscenePanel(this, frame);
 		current = title;
 		frame.add(current);
 		frame.repaint();

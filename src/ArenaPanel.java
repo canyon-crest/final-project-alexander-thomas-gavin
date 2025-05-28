@@ -197,6 +197,9 @@ public class ArenaPanel extends GamePanel {
                 else if(endingType == 1){
                     getGameManager().arenaToWin(0);
                 }
+                else if(endingType == 2){
+                    getGameManager().arenaToLose();
+                }
     		}
     	}
 
