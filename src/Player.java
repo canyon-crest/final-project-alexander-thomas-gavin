@@ -78,6 +78,27 @@ public class Player extends Character{
 	private Image SD2;
 	private Image SD3;
 	private Animation SD;
+	// DUR (Diagonal Up Right)
+	final String SLASHDUR1 = "images/player/slash/DUR/slashDUR1.png";
+	final String SLASHDUR2 = "images/player/slash/DUR/slashDUR2.png";
+	final String SLASHDUR3 = "images/player/slash/DUR/slashDUR3.png";
+	private Image SDUR1, SDUR2, SDUR3;
+	private Animation SDUR;
+
+	// DUL (Diagonal Up Left)
+	final String SLASHDUL1 = "images/player/slash/DUL/slashDUL1.png";
+	final String SLASHDUL2 = "images/player/slash/DUL/slashDUL2.png";
+	final String SLASHDUL3 = "images/player/slash/DUL/slashDUL3.png";
+	private Image SDUL1, SDUL2, SDUL3;
+	private Animation SDUL;
+
+	// UP
+	final String SLASHU1 = "images/player/slash/U/slashU1.png";
+	final String SLASHU2 = "images/player/slash/U/slashU2.png";
+	final String SLASHU3 = "images/player/slash/U/slashU3.png";
+	private Image SU1, SU2, SU3;
+	private Animation SU;
+
 	
 	
 	private int hurt = 0;
@@ -149,6 +170,43 @@ public class Player extends Character{
 		timings.add(4);
 		timings.add(3);
 		SD = new Animation(animationImages, timings,false);
+		// Swing DUR
+		animationImages = new ArrayList<>();
+		timings = new ArrayList<>();
+		animationImages.add(SDUR1);
+		animationImages.add(SDUR2);
+		animationImages.add(SDUR3);
+		animationImages.add(SDUR3);
+		timings.add(2);
+		timings.add(1);
+		timings.add(4);
+		timings.add(3);
+		SDUR = new Animation(animationImages, timings, false);
+		// Swing DUL
+		animationImages = new ArrayList<>();
+		timings = new ArrayList<>();
+		animationImages.add(SDUL1);
+		animationImages.add(SDUL2);
+		animationImages.add(SDUL3);
+		animationImages.add(SDUL3);
+		timings.add(2);
+		timings.add(1);
+		timings.add(4);
+		timings.add(3);
+		SDUL = new Animation(animationImages, timings, false);
+		// Swing UP
+		animationImages = new ArrayList<>();
+		timings = new ArrayList<>();
+		animationImages.add(SU1);
+		animationImages.add(SU2);
+		animationImages.add(SU3);
+		animationImages.add(SU3);
+		timings.add(2);
+		timings.add(1);
+		timings.add(4);
+		timings.add(3);
+		SU = new Animation(animationImages, timings, false);
+
 	}
 	public void changeVelocity(double direction, double amount){
 		if(stun <= 0){
@@ -178,8 +236,19 @@ public class Player extends Character{
 				SDDL.startAnimation();
 			}
 			if (3*Math.PI/8 < direction && 5*Math.PI/8 > direction) {
+			
 				SD.startAnimation();
 			}
+			if (13*Math.PI/8 <= direction &&  15*Math.PI/8 >= direction) {
+			    SDUR.startAnimation();
+			}
+			if (9*Math.PI/8 <= direction &&  11*Math.PI/8 >= direction) {
+			    SDUL.startAnimation();
+			}
+			if (11*Math.PI/8 < direction &&  13*Math.PI/8 > direction) {
+			    SU.startAnimation();
+			}
+
 		}
 	}
 	public void dash(double direction,double amount){
@@ -224,11 +293,15 @@ public class Player extends Character{
 		}
 	}
 	public boolean tick(){
+		//Tick Each Animation of the Player
 		SL.tick();
 		SR.tick();
 		SDDR.tick();
 		SDDL.tick();
 		SD.tick();
+		SDUR.tick();
+		SDUL.tick();
+		SU.tick();
 		super.tick();
 		if(getHealth() == 0){
 			destroy();
@@ -292,6 +365,16 @@ public class Player extends Character{
 		else if(SD.animationStarted()) {
 			return SD.getCurrentImage();
 		}
+		else if(SDUR.animationStarted()) {
+		    return SDUR.getCurrentImage();
+		}
+		else if(SDUL.animationStarted()) {
+		    return SDUL.getCurrentImage();
+		}
+		else if(SU.animationStarted()) {
+		    return SU.getCurrentImage();
+		}
+
 		//diagonal down right
 		else if ( Math.PI/8 <= angle && angle <= Math.PI/4+Math.PI/8) {
 			return DDR;
@@ -339,6 +422,39 @@ public class Player extends Character{
 		return (int)getYCenter()-H/(SCALE*2);
 	}
 	  private void loadImages(){
+		//Slash DUR
+		  try {
+		      SDUR1 = ImageIO.read(ArenaPanel.class.getResource(SLASHDUR1)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);
+		  } catch (IOException e) { SDUR1 = null; }
+		  try {
+		      SDUR2 = ImageIO.read(ArenaPanel.class.getResource(SLASHDUR2)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);
+		  } catch (IOException e) { SDUR2 = null; }
+		  try {
+		      SDUR3 = ImageIO.read(ArenaPanel.class.getResource(SLASHDUR3)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);
+		  } catch (IOException e) { SDUR3 = null; }
+
+		  //Slash DUL
+		  try {
+		      SDUL1 = ImageIO.read(ArenaPanel.class.getResource(SLASHDUL1)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);
+		  } catch (IOException e) { SDUL1 = null; }
+		  try {
+		      SDUL2 = ImageIO.read(ArenaPanel.class.getResource(SLASHDUL2)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);
+		  } catch (IOException e) { SDUL2 = null; }
+		  try {
+		      SDUL3 = ImageIO.read(ArenaPanel.class.getResource(SLASHDUL3)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);
+		  } catch (IOException e) { SDUL3 = null; }
+
+		  //Slash UP
+		  try {
+		      SU1 = ImageIO.read(ArenaPanel.class.getResource(SLASHU1)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);
+		  } catch (IOException e) { SU1 = null; }
+		  try {
+		      SU2 = ImageIO.read(ArenaPanel.class.getResource(SLASHU2)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);
+		  } catch (IOException e) { SU2 = null; }
+		  try {
+		      SU3 = ImageIO.read(ArenaPanel.class.getResource(SLASHU3)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);
+		  } catch (IOException e) { SU3 = null; }
+
 		  //DOWN
 		  try{
 	            SD1 = ImageIO.read(ArenaPanel.class.getResource(SLASHD1)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
