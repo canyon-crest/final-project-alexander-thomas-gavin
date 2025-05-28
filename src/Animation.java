@@ -35,25 +35,40 @@ public class Animation {
         started = false;
         timer = 0;
     }
+
+
+    //returns the current image
     public Image getCurrentImage(){
         return images.get(currentImage);
     }
+
+    //starts the animation by cycling through frames
     public void startAnimation(){
         started = true;
         timer = timing.get(0);
         currentImage = 0;
     }
+
+    //returns whether the animation has started
     public boolean animationStarted(){
         return started;
     }
+
+    //adds another image to the animation
     public void addImage(Image image, int nextTiming){
         images.add(image);
         timing.add(nextTiming);
     }
+
+    //stops the animation
     public void stopAnimation(){
         started = false;
     }
+
+
+    //runs on every tick
     public void tick(){
+        //cycles the animation if the animation has been started
         if(started){
             if(timer == 0){
                 currentImage +=1;
