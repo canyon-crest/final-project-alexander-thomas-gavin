@@ -8,6 +8,7 @@ public class EntropyBeam extends Projectile{
     private int startY;
     private boolean active;
     int axis;
+    int numProjectiles;
 
     public EntropyBeam(double xLocation, double yLocation,int width,double direction){
         super(xLocation,yLocation,0,width,0,2,10,50);
@@ -16,6 +17,7 @@ public class EntropyBeam extends Projectile{
         startX = (int)xLocation;
         startY = (int)yLocation;
         active = false;
+        numProjectiles = 6;
 
     }
     public void calculateEnd(){
@@ -65,13 +67,16 @@ public class EntropyBeam extends Projectile{
     public int getEndY(){
         return endY;
     }
+    public void setNumProjectiles(int numProjectiles) {
+    	this.numProjectiles = numProjectiles;
+    }
     public boolean tick(){
         if(getTimeLeft() == 30){
             active = true;
             double direction = -Math.PI/2+(Math.PI/2)*axis;
-            for(int i = 0; i < 7; i++){
+            for(int i = 0; i < numProjectiles+1; i++){
                 new Debris(getEndX(),getEndY(),40/SCALE,40/SCALE,direction);
-                direction += Math.PI/6;
+                direction += Math.PI/numProjectiles;
             }
 
         }

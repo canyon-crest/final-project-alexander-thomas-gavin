@@ -135,6 +135,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		win = new WinPanel(this, frame);
 		current = title;
 		frame.add(current);
+		title.fadeIn();
 		frame.repaint();
 		frame.revalidate();
 		current.requestFocusInWindow();
@@ -142,8 +143,8 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	//runs after the player dies
 	public void arenaToLose(){
 		frame.remove(current);
-		arena = new ArenaPanel(this, frame);
 		Entity.clearEntities();
+		arena = new ArenaPanel(this, frame);
 		current = death;
 		frame.add(current);
 		frame.repaint();
@@ -156,6 +157,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		death = new DeathCutscenePanel(this, frame);
 		current = title;
 		frame.add(current);
+		title.fadeIn();
 		frame.repaint();
 		frame.revalidate();
 		current.requestFocusInWindow();

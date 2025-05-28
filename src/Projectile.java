@@ -19,6 +19,9 @@ public abstract class Projectile extends Entity{
         }
         return false;
     }
+    public void setTimeLeft(int timeLeft) {
+    	this.timeLeft = timeLeft;
+    }
     public int getDamage(){
         return damage;
     }

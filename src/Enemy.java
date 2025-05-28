@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Enemy extends Character{
 
     private Entity mortalEnemy;
-    private int cooldown = 0;
+    private int cooldown = 60;
     private int noAction = 0;
     private double dashX;
     private double dashY;
@@ -43,7 +43,8 @@ public class Enemy extends Character{
     //runs every frame
     public boolean tick(){
     	dashChance = 0.02-0.02*((getMaxHealth()-getHealth())/(double)getMaxHealth());
-    	slamOrDashChance = 0.01+0.02*((getMaxHealth()-getHealth())/(double)getMaxHealth());
+    	entropyChance = 0.01+0.02*((getMaxHealth()-getHealth())/(double)getMaxHealth());
+    	slamOrDashChance = 0.01+0.01*((getMaxHealth()-getHealth())/(double)getMaxHealth());
     	double distance = Math.sqrt(Math.pow(mortalEnemy.getXCenter()-getXCenter(), 2)+Math.pow(mortalEnemy.getYCenter()-getYCenter(), 2));
         super.tick();
         setColor(Color.YELLOW);
@@ -114,12 +115,36 @@ public class Enemy extends Character{
 
             }
             dashProgress--;
-            if(dashProgress == 0 && enraged) {
-            	initiateSlam();
+            if(dashProgress == 1 && enraged) {
+            	double direction = getAngle()-Math.PI/2;
+                for (int i = 0; i < 6; i++) {
+                    new Debris(getXCenter(), getYCenter(), 20 / SCALE, 20 / SCALE, direction);
+                    direction += Math.PI / 6;
+                }
             }
 
         }
         if(entropyProgress > 0){
+        	if((entropyProgress == 50 || entropyProgress == 40)&&getHealth()<=250) {
+        		double angleDiff = 0;
+        		double x = 100;
+        		if(enraged) {
+                	x = Math.random()*((double)TitleScreen.WIDTH/SCALE-86d/SCALE)+43d/SCALE;
+
+                    if(mortalEnemy.getXCenter() != x) {
+                        angleDiff = Math.atan(mortalEnemy.getYCenter() / (mortalEnemy.getXCenter()-x));
+                    }
+                    else{
+                        angleDiff = Math.PI/2;
+                    }
+                    if(angleDiff<0){
+                        angleDiff+=Math.PI;
+                    }
+                    EntropyBeam b = new EntropyBeam(x,0,30/SCALE,angleDiff);
+                    b.setTimeLeft(70);
+                    b.setNumProjectiles(3);
+                }
+        	}
             entropyProgress--;
         }
         if(slamProgress > 0) {
@@ -130,7 +155,7 @@ public class Enemy extends Character{
                     new Slam(getXCenter(),getYCenter(),500/SCALE);
                 }
                 if (slamProgress == 25){
-                    double direction = 0;
+                    double direction = Math.random()*Math.PI/3;
                     for (int i = 0; i < 6; i++) {
                         new Debris(getXCenter(), getYCenter(), 60 / SCALE, 60 / SCALE, direction);
                         direction += Math.PI / 3;
@@ -147,7 +172,10 @@ public class Enemy extends Character{
         Indicator i = new Indicator(dashX,dashY,50/SCALE,50/SCALE,25);
         i.moveCentered(dashX,dashY);
         dashProgress = 40;
-        cooldown = 60;
+        cooldown = 80;
+        if(enraged) {
+        	cooldown += 40;
+        }
         noAction = 35;
     }
     //starts a different dash ability toward the player
@@ -191,10 +219,18 @@ public class Enemy extends Character{
             angleDiff+=Math.PI;
         }
         EntropyBeam a = new EntropyBeam(x,0,30/SCALE,angleDiff);
+        if(getHealth() <= 250) {
+        	a.setTimeLeft(70);
+        	a.setNumProjectiles(3);
+        }
+        
 
-        entropyProgress = 30;
+        entropyProgress = 60;
         cooldown = 120;
         noAction = 30;
+        if(getHealth() <= 250) {
+        	noAction = 60;
+        }
     }
     //starts the shield ability
     public void initiateShield(){
