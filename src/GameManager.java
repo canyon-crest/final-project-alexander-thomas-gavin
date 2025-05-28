@@ -7,6 +7,9 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	private GamePanel current;
 	private TitlePanel title;
 	private ArenaPanel arena;
+	private WinPanel win;
+	private IntroCutscenePanel intro;
+	private int highestScore;
 	private Timer timer;
 	private ArrayList<Integer> keysPressed;
 	public void startGame() {
@@ -14,6 +17,8 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		frame = new TitleScreen();
 		title = new TitlePanel(this, frame);
 		arena = new ArenaPanel(this,frame);
+		intro = new IntroCutscenePanel(this,frame);
+		win = new WinPanel(this,frame);
 		current = title;
 		frame.add(current);
 		frame.pack();
@@ -21,6 +26,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		timer = new Timer(17,this);
 		timer.start();
 		keysPressed = new ArrayList<Integer>();
+		highestScore = 0;
 
 
 	}
@@ -85,6 +91,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	public void mouseExited(MouseEvent e) {
 
 	}
+	//runs when arena panel goes back to main panel
 	public void returnToMain() {
 		frame.remove(current);
 		current = title;
@@ -97,9 +104,42 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		current.requestFocusInWindow();
 		title.fadeIn();
 	}
+	//runs when the main screen transitions to the cutscene
+	public void startIntro(){
+		frame.remove(current);
+		title = new TitlePanel(this,frame);
+		current = intro;
+		frame.add(current);
+		frame.repaint();
+		frame.revalidate();
+		current.requestFocusInWindow();
+	}
+	//runs after a win
+	public void arenaToWin(int score){
+		highestScore = Math.max(score,highestScore);
+		frame.remove(current);
+		arena = new ArenaPanel(this, frame);
+		intro.setScore(score);
+		current = win;
+		frame.add(current);
+		frame.repaint();
+		frame.revalidate();
+		current.requestFocusInWindow();
+	}
+	//runs after a win cutscene
+	public void winToStart(){
+		frame.remove(current);
+		win = new WinPanel(this, frame);
+		current = title;
+		frame.add(current);
+		frame.repaint();
+		frame.revalidate();
+		current.requestFocusInWindow();
+	}
+	//runs after the first cutscene
 	public void startArena(){
 		frame.remove(current);
-		title = new TitlePanel(this, frame);
+		intro = new IntroCutscenePanel(this,frame);
 		current = arena;
 		frame.add(current);
 		frame.pack();

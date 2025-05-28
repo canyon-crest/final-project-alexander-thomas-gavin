@@ -152,7 +152,7 @@ public class TitlePanel extends GamePanel {
         if(transitioning) {
     		
     		if(transitionTimer <= 0) {
-    			getGameManager().startArena();
+    			getGameManager().startIntro();
     		}
     	}
         

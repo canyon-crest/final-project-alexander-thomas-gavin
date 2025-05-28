@@ -39,14 +39,18 @@ public class Enemy extends Character{
         }
     }
     public boolean tick(){
-    	dashChance = 0.02-0.01*((getMaxHealth()-getHealth())/(double)getMaxHealth());
-    	slamOrDashChance = 0.02+0.02*((getMaxHealth()-getHealth())/(double)getMaxHealth());
+    	dashChance = 0.02-0.02*((getMaxHealth()-getHealth())/(double)getMaxHealth());
+    	slamOrDashChance = 0.01+0.02*((getMaxHealth()-getHealth())/(double)getMaxHealth());
     	double distance = Math.sqrt(Math.pow(mortalEnemy.getXCenter()-getXCenter(), 2)+Math.pow(mortalEnemy.getYCenter()-getYCenter(), 2));
         super.tick();
         setColor(Color.YELLOW);
         if(noAction<=0) {
+
             setRectVelocity(getX() - mortalEnemy.getX(), getY() - mortalEnemy.getY());
             setVelocity(getAngle(), (double) 2 / SCALE);
+            if(enraged){
+                setVelocity(getAngle(),getMagnitude()*-1);
+            }
         }
         else{
             noAction--;
@@ -113,6 +117,19 @@ public class Enemy extends Character{
         }
         if(slamProgress > 0) {
         	slamProgress --;
+
+            if(enraged) {
+                if(slamProgress == 45){
+                    new Slam(getXCenter(),getYCenter(),500/SCALE);
+                }
+                if (slamProgress == 25){
+                    double direction = 0;
+                    for (int i = 0; i < 6; i++) {
+                        new Debris(getXCenter(), getYCenter(), 60 / SCALE, 60 / SCALE, direction);
+                        direction += Math.PI / 3;
+                    }
+                }
+            }
         }
         return false;
     }
@@ -136,16 +153,18 @@ public class Enemy extends Character{
     }
     public void initiateSlam() {
     	Slam s = new Slam(getXCenter(),getYCenter(),300/SCALE);
-    	noAction = 40;
-    	slamProgress = 35;
+        if(enraged){
+            noAction = 70;
+        }
+        else {
+            noAction = 40;
+        }
+    	slamProgress = 70;
     	cooldown = 80;
-    	if(enraged) {
-    		double direction = 0;
-    		for(int i = 0; i < 12; i++){
-                new Debris(getXCenter(),getYCenter(),40/SCALE,40/SCALE,direction);
-                direction += Math.PI/6;
-            }
-    	}
+        if(enraged){
+            cooldown = 120;
+        }
+
     }
     public void initiateEntropy(){
         double angleDiff = 0;
@@ -163,7 +182,7 @@ public class Enemy extends Character{
         EntropyBeam a = new EntropyBeam(x,0,30/SCALE,angleDiff);
 
         entropyProgress = 30;
-        cooldown = 200;
+        cooldown = 120;
         noAction = 30;
     }
     public void initiateShield(){

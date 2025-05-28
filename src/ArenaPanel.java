@@ -25,6 +25,7 @@ public class ArenaPanel extends GamePanel {
     private Image mainwall;
     private int transitionTimer;
     private boolean ending;
+    private int endingType;
     public ArenaPanel(GameManager manager, JFrame frame){
         super(manager, frame);
         setBackground(Color.cyan);
@@ -34,20 +35,24 @@ public class ArenaPanel extends GamePanel {
         loadImages();
         prevKeys = new ArrayList<Integer>();
         prevDirection = 0;
-        player = new Player(100/SCALE,100/SCALE,1.2/SCALE,60/SCALE,60/SCALE,100);
-        enemy = new Enemy(400/SCALE,400/SCALE,1.6/SCALE,90/SCALE,90/SCALE,1000,player);
+        player = new Player((W-60)/(2.0*SCALE),800.0/SCALE,1.2/SCALE,60/SCALE,60/SCALE,100);
+        enemy = new Enemy((W-90)/(2.0*SCALE), H/(3.0*SCALE),1.6/SCALE,90/SCALE,90/SCALE,1000,player);
         transitionTimer = 30;
         ending = false;
+        endingType = 0;
 
 
 
     }
     public void restart() {
+        //called when the player leaves the arena panel
     	ending = true;
     	transitionTimer = 30;
+
     }
     @Override
     public void click(int x, int y) {
+        //called when a player clicks
     	if(transitionTimer <= 0) {
     	
 	    	if(prevDirection % (Math.PI/2d) < 0.1) {
@@ -61,6 +66,7 @@ public class ArenaPanel extends GamePanel {
     }
     
     private void loadImages(){
+        //load images for ArenaPanel
     	try{
             background = ImageIO.read(ArenaPanel.class.getResource(BACKGROUND_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
         }
@@ -81,10 +87,20 @@ public class ArenaPanel extends GamePanel {
         }
     }
 
+    //called every frame
     @Override
     public void update(ArrayList<Integer> keys) {
+
     	if(transitionTimer <= 0) {
-    		
+            if(enemy.getHealth() <= 0){
+                endingType = 1;
+                restart();
+            }
+            else if(player.getHealth() <= 0) {
+                endingType = 2;
+                restart();
+            }
+
 	        for(int i = 0; i < Entity.getAllEntities().size(); i++) {
 	            if(Entity.getAllEntities().get(i).tick()){
 	                i--;
@@ -123,6 +139,7 @@ public class ArenaPanel extends GamePanel {
 	
 	            }
 	        }
+
 	        for(int i: prevKeys){
 	            if(i == KeyEvent.VK_SPACE){
 	                prevSpace = true;
@@ -174,18 +191,25 @@ public class ArenaPanel extends GamePanel {
     	else {
     		transitionTimer--;
     		if(ending && transitionTimer == 0) {
-    			getGameManager().returnToMain();
+                if(endingType==0) {
+                    getGameManager().returnToMain();
+                }
+                else if(endingType == 1){
+                    getGameManager().arenaToWin(0);
+                }
     		}
     	}
 
     }
+    //draws graphics
     public void paintComponent(Graphics g){
-
+        //draws background
         g.setColor(Color.BLACK);
         g.fillRect(0,0,TitleScreen.WIDTH/SCALE,TitleScreen.HEIGHT/SCALE);
         g.drawImage(background, 0, 0, null);
         g.drawImage(topwall, 0, 0, null);
         g.drawImage(player.getImage(), (int) player.getImageX(), (int) player.getImageY(), null);
+        //draws hitboxes
         for(Entity e: Entity.getAllEntities()) {
             g.setColor(e.getColor());
             if(e instanceof EntropyBeam){
@@ -209,7 +233,9 @@ public class ArenaPanel extends GamePanel {
                 g.drawRect((int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight());
             }
         }
+
         g.drawImage(mainwall, 0, 0, null);
+        //draws health bars
         int xLocHealth = 100/SCALE;
         g.setColor(Color.RED);
         for(int i = 10; i <= player.getHealth(); i+=10){
@@ -228,39 +254,40 @@ public class ArenaPanel extends GamePanel {
         xLocHealth = 100/SCALE;
         g.setColor(new Color(53,24,87));
         for(int i = 100; i <= enemy.getHealth(); i+=100){
-            g.fillRect(xLocHealth,900/SCALE,100/SCALE,50/SCALE);
+            g.fillRect(xLocHealth,1000/SCALE,100/SCALE,50/SCALE);
             xLocHealth += 110/SCALE;
         }
         int enemyShield = enemy.getShield();
         if(enemy.getHealth()%100 > 0) {
-            g.fillRect(xLocHealth, 900 / SCALE, ((enemy.getHealth() % 100)) / SCALE, 50 / SCALE);
+            g.fillRect(xLocHealth, 1000 / SCALE, ((enemy.getHealth() % 100)) / SCALE, 50 / SCALE);
             g.setColor(Color.GRAY);
             if(enemyShield >= 100-(enemy.getHealth() % 100)) {
-                g.fillRect(xLocHealth + (enemy.getHealth() % 100)/SCALE, 900 / SCALE, 100/SCALE - ((enemy.getHealth() % 100)) / SCALE, 50 / SCALE);
+                g.fillRect(xLocHealth + (enemy.getHealth() % 100)/SCALE, 1000 / SCALE, 100/SCALE - ((enemy.getHealth() % 100)) / SCALE, 50 / SCALE);
                 enemyShield -= 100-(enemy.getHealth() % 100);
             }
             else if(enemyShield > 0){
-                g.fillRect(xLocHealth + (enemy.getHealth() % 100)/SCALE, 900 / SCALE, ((enemyShield % 100)) / SCALE, 50 / SCALE);
+                g.fillRect(xLocHealth + (enemy.getHealth() % 100)/SCALE, 1000 / SCALE, ((enemyShield % 100)) / SCALE, 50 / SCALE);
                 enemyShield = 0;
             }
             xLocHealth += 110/SCALE;
         }
         g.setColor(Color.GRAY);
         for(int i = 100; i <= enemyShield; i+=100){
-            g.fillRect(xLocHealth,900/SCALE,100/SCALE,50/SCALE);
+            g.fillRect(xLocHealth,1000/SCALE,100/SCALE,50/SCALE);
             xLocHealth += 110/SCALE;
         }
         if(enemyShield%100 > 0) {
-            g.fillRect(xLocHealth, 900 / SCALE, ((enemyShield % 100)) / SCALE, 50 / SCALE);
+            g.fillRect(xLocHealth, 1000 / SCALE, ((enemyShield % 100)) / SCALE, 50 / SCALE);
         }
 
         xLocHealth = 100/SCALE;
         for(int i = 100; i <= enemy.getMaxHealth(); i+=100){
             g.setColor(Color.WHITE);
-            g.drawRect(xLocHealth-1,900/SCALE-1,100/SCALE+1,50/SCALE+1);
+            g.drawRect(xLocHealth-1,1000/SCALE-1,100/SCALE+1,50/SCALE+1);
             xLocHealth += 110/SCALE;
         }
         g.setColor(Color.CYAN);
+        //handles transitions
         if(transitionTimer > 0) {
         	if(ending) {
         		g.setColor(new Color(0,0,0,(30-transitionTimer)*255/30));

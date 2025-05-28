@@ -20,6 +20,7 @@ public abstract class GamePanel extends JPanel {
     }
     public abstract void click(int x, int y);
     public abstract void update(ArrayList<Integer> keys);
+
     public GameManager getGameManager(){
         return gameManager;
     }
