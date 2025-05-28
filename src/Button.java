@@ -22,21 +22,21 @@ public class Button{
         this.jPanel = jPanel;
 
     }
-
+    //runs every tick
     public void tick(double mouseX, double mouseY){
+        //checks to see if the mouse is hovering over the button
         selected = mouseX <= x + width && mouseX >= x && mouseY <= y + height && mouseY >= y;
 
     }
+    //returns one of two images depending on whether a player hovers over a button
     public Image getImage(){
         if(selected){
             return imageSelected;
         }
         return imageUnselected;
     }
+    //returns whether the button was clicked
     public boolean click(){
-//    	Point loc = MouseInfo.getPointerInfo().getLocation();
-//        Point loc2 = jPanel.getLocationOnScreen();
-//        Point actualLoc = new Point((int)(loc.getX()-loc2.getX()),(int)(loc.getY()-loc2.getY()));
     	Point actualLoc = jPanel.getMousePosition();
     	if(actualLoc == null) {
     		return false;
