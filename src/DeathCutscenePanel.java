@@ -16,6 +16,11 @@ public class DeathCutscenePanel extends GamePanel{
     private Image unselectedImage;
     private Button retryButton;
     private boolean fadeOut = false;
+    /**
+     *  constructor for the DeathCutscenePanel
+     * @param gameManager the current gameMangager
+     * @param jFrame the current jFrame
+     */
     public DeathCutscenePanel(GameManager gameManager, JFrame jFrame) {
         super(gameManager, jFrame);
         loadImages();
@@ -23,6 +28,9 @@ public class DeathCutscenePanel extends GamePanel{
         transitionTimer = 20;
 
     }
+    /**
+     *  method that loads all images
+     */
     //loads all the images
     private void loadImages(){
         try{
@@ -53,6 +61,11 @@ public class DeathCutscenePanel extends GamePanel{
 
     //ends the cutscene when the player clicks
     //tests if button is pressed
+    /**
+     *  method that runs when a click happens to fade out the screen
+     * @param x the mouse x location
+     * @param y the mouse y location
+     */
     @Override
     public void click(int x, int y) {
         if(retryButton.click()){
@@ -60,6 +73,10 @@ public class DeathCutscenePanel extends GamePanel{
         }
     }
     //runs every game tick
+    /**
+     *  method that runs every tick
+     * @param keys an arraylist of all keys that are pressed
+     */
     @Override
     public void update(ArrayList<Integer> keys) {
         //gets mouse X and mouse Y and passes it to the button
@@ -82,6 +99,9 @@ public class DeathCutscenePanel extends GamePanel{
 
         }
     }
+    /**
+     *  method that runs every tick and draws graphics
+     */
     //draws the graphics
     public void paintComponent(Graphics g){
         g.drawImage(cutsceneImage, 0, 0, null);

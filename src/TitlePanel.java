@@ -11,7 +11,6 @@ public class TitlePanel extends GamePanel {
 	public static final int W = TitleScreen.WIDTH;
 	public static final int H = TitleScreen.HEIGHT;
     final String TITLE_IMAGE_PATH = "images/background.png";
-    final String STARS_IMAGE_PATH = "images/star.png";
     final String STARS1_IMAGE_PATH = "images/stars1.png";
     final String STARS2_IMAGE_PATH = "images/stars2.png";
     final String STARS3_IMAGE_PATH = "images/stars3.png";
@@ -33,7 +32,11 @@ public class TitlePanel extends GamePanel {
     private boolean transitioning;
     private int transitionTimer;
     private int score;
-
+    /**
+     *  constructor for TitlePanel
+     * @param manager the current gameManager
+     * @param frame the current jFrame
+     */
     public TitlePanel(GameManager manager, JFrame frame){
         super(manager, frame);
         transitioning = false;
@@ -56,9 +59,16 @@ public class TitlePanel extends GamePanel {
 
 
     }
+    /**
+     *  method sets the score displayed
+     * @param score the amount of score to set
+     */
     public void setScore(int score){
         this.score = score;
     }
+    /**
+     *  method that loads all the images
+     */
     private void loadImages(){
         try{
             background = ImageIO.read(TitlePanel.class.getResource(TITLE_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
@@ -101,10 +111,18 @@ public class TitlePanel extends GamePanel {
             System.out.println("Loading start button failed");
         }
     }
+    /**
+     *  method that runs every frame
+     */
     public void tick(ArrayList<Integer> keys){
         super.tick(keys);
 
     }
+    /**
+     *  method that runs on click
+     * @param x x location of the mouse
+     * @param y y location of the mouse
+     */
     public void click(int x, int y){
         if(start.click()){
         	transitionTimer = 30;
@@ -112,10 +130,17 @@ public class TitlePanel extends GamePanel {
             
         }
     }
+    /**
+     *  method that fades the screen in
+     */
     public void fadeIn() {
     	transitionTimer = 30;
     	transitioning = false;
     }
+    /**
+     *  method that runs every frame
+     * @param keys arraylist of all keys pressed
+     */
     
     public void update(ArrayList<Integer> keys){
         for(int i: keys){
@@ -130,7 +155,7 @@ public class TitlePanel extends GamePanel {
     		location = new Point(0,0);
     	}
         
-
+        //sets the locations of all moving parts such as stars
         if(isFocusOwner()){
 
             starX = (int)(-(30/SCALE)*(Math.atan(((double)TitleScreen.WIDTH/(2*SCALE)-location.getX())/((double)TitleScreen.WIDTH/(4*SCALE)))/Math.PI));
@@ -149,6 +174,7 @@ public class TitlePanel extends GamePanel {
         if(oscilation > 2*Math.PI){
             oscilation -= 2*Math.PI;
         }
+        //handles transitions
         if(transitionTimer > 0) {
         	transitionTimer --;
         }
@@ -160,6 +186,10 @@ public class TitlePanel extends GamePanel {
     	}
         
     }
+    /**
+     *  method that runs every frame to handle graphics
+     * @param g graphics
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);

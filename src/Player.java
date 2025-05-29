@@ -103,6 +103,15 @@ public class Player extends Character{
 	
 	private int hurt = 0;
 	private int regen = 60;
+	/**
+	 *  constructor method of the player
+	 * @param xLocation the x of the player
+	 * @param yLocation the y of the player
+	 * @param friction the friction of the player
+	 * @param width the width of the player
+	 * @param height the height of the player
+	 * @param panel the current ArenaPanel
+	 */
 	public Player(double xLocation, double yLocation, double friction, int width, int height, int health,ArenaPanel panel) {
 		super(xLocation, yLocation, friction, width, height, health);
 		loadImages();
@@ -110,6 +119,9 @@ public class Player extends Character{
 		this.panel = panel;
 
 	}
+	/**
+	 *  method that creates all animations
+	 */
 	private void createAnimations(){
 		//Swing Left
 		ArrayList<Image> animationImages = new ArrayList<>();
@@ -209,14 +221,29 @@ public class Player extends Character{
 		SU = new Animation(animationImages, timings, false);
 
 	}
+	/**
+	 *  method changes velocity of the player
+	 * @param direction the direction
+	 * @param amount the magnitude
+	 */
 	public void changeVelocity(double direction, double amount){
 		if(stun <= 0){
 			setVelocity(direction,amount*speedMult);
 		}
 	}
+	/**
+	 *  method that sets the direction pressed
+	 * @param currentDirection the direction
+	 */
 	public void setCurrentDirection(double currentDirection){
 		this.currentDirection = currentDirection;
 	}
+	/**
+	 *  method that starts a slash
+	 * @param direction the direction
+	 * @param width the width of the slash
+	 * @param height the height of the slash
+	 */
 	public void swordAttack(double direction, int width, int height){
 		if(swordCooldown == 0){
 			new Slash(getX()+getWidth()*Math.cos(direction)/2,getY()+getHeight()*Math.sin(direction)/2 ,
@@ -252,6 +279,11 @@ public class Player extends Character{
 
 		}
 	}
+	/**
+	 *  method that starts a dash
+	 * @param direction the direction
+	 * @param amount the magnitude
+	 */
 	public void dash(double direction,double amount){
 		if(dashCooldown == 0){
 			setVelocity(direction, amount);
@@ -264,36 +296,63 @@ public class Player extends Character{
 
 
 	}
+	/**
+	 *  method that is run when a player is hurt
+	 */
 	public void hurt(){
 		hurt = 1;
 	}
+	/**
+	 *  method that is run when a player takes damage and reduces health
+	 * @param amount the amount of damage
+	 */
 	public void takeDamage(int amount){
 		if(iFrames == 0) {
 			super.takeDamage(amount);
 			panel.reduceScore();
 		}
 	}
-
+	/**
+	 *  method that sets iframe of the player
+	 * @param amount the time of the iframes
+	 */
 	public void setIFrames(int amount){
 		if(amount > iFrames){
 			iFrames = amount;
 		}
 
 	}
+	/**
+	 *  method that returns iframes
+	 * @return iframes
+	 */
 	public int getiFrames(){
 		return iFrames;
 	}
+	/**
+	 *  method that sets speed multipliers
+	 * @param amount the amount of multiplication
+	 * @param time the time that speed is multiplied
+	 */
 	public void setSpeedMult(double amount, double time) {
 		speedMult *= amount;
 		if(speedMultTime < time) {
 			speedMultTime = time;
 		}
 	}
+	/**
+	 *  method that sets stun duration
+	 * @param time stun duration
+	 */
 	public void stun(int time){
 		if(time > stun) {
 			stun = time;
 		}
 	}
+	/**
+	 *  method that is run every frame
+	 * @return whether the player is deleted
+	 */
 	public boolean tick(){
 		//Tick Each Animation of the Player
 		SL.tick();
@@ -345,6 +404,10 @@ public class Player extends Character{
 		}
 		return false;
 	}
+	/**
+	 *  method that returns the current image
+	 * @return current image
+	 */
 	public Image getImage() {
 		double angle = currentDirection;
 		
@@ -417,15 +480,26 @@ public class Player extends Character{
 		//starts at pi/8 with pi/4 intervals for each direction
 		
 	}
+	/**
+	 *  method that returns the image X
+	 * @return image X
+	 */
 	//returns the X location image should be
 	public int getImageX(){
 		return (int)getXCenter()-W/(SCALE*2);
 	}
+	/**
+	 *  method that returns the image Y
+	 * @return image Y
+	 */
 	//returns Y location image should be
 	public int getImageY(){
 		return (int)getYCenter()-H/(SCALE*2);
 	}
-	  private void loadImages(){
+	/**
+	 *  method that loads all the images
+	 */
+	private void loadImages(){
 		//Slash DUR
 		  try {
 		      SDUR1 = ImageIO.read(ArenaPanel.class.getResource(SLASHDUR1)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);

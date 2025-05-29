@@ -9,6 +9,13 @@ public class EntropyBeam extends Projectile{
     private boolean active;
     int axis;
     int numProjectiles;
+    /**
+     *  constructor method for entropybeam
+     * @param xLocation starting x of the beam
+     * @param yLocation starting y of the beam
+     * @param width width of the beam
+     * @param direction direction of the beam
+     */
 
     public EntropyBeam(double xLocation, double yLocation,int width,double direction){
         super(xLocation,yLocation,0,width,0,2,10,50);
@@ -20,6 +27,9 @@ public class EntropyBeam extends Projectile{
         numProjectiles = 6;
 
     }
+    /**
+     *  method that calculates the end of the beam
+     */
     public void calculateEnd(){
         double x = getX();
         double y = getY();
@@ -40,6 +50,10 @@ public class EntropyBeam extends Projectile{
         }
 
     }
+    /**
+     *  method that checks if another entity is in the hitbox
+     * @param other the entity to check
+     */
     public boolean isInHitBox(Entity other){
         double angleDiff = 0;
         if(other.getXCenter() != getX()) {
@@ -52,25 +66,55 @@ public class EntropyBeam extends Projectile{
         double distance = Math.abs(Math.sin(angleDiff)*distDiff);
         return distance <= 5 + (other.getHeight()+other.getWidth())/2d;
     }
+    /**
+     *  method that gets the x center location
+     * @return x location
+     */
     public double getXCenter(){
         return getX();
     }
+    /**
+     *  method that gets the y center location
+     * @return y location
+     */
     public double getYCenter(){
         return getY();
     }
+    /**
+     *  method that moves the beams center
+     * @param x the x location to move to
+     * @param y the y location to move to
+     */
     public void moveCentered(double x, double y){
         move(x,y);
     }
+    /**
+     *  method that gets the ending x point
+     * @return ending x point
+     */
     public int getEndX(){
         return endX;
     }
+    /**
+     *  method that gets the ending y point
+     * @return ending y point
+     */
     public int getEndY(){
         return endY;
     }
+    /**
+     *  a method that sets the number of beam projectiles
+     * @param numProjectiles number of projectiles
+     */
     public void setNumProjectiles(int numProjectiles) {
     	this.numProjectiles = numProjectiles;
     }
+    /**
+     *  method that runs every frame
+     * @return whether the beam is deleted
+     */
     public boolean tick(){
+        //checks how much time is left and when to deal damage to the player
         if(getTimeLeft() == 30){
             active = true;
             double direction = -Math.PI/2+(Math.PI/2)*axis;
@@ -83,10 +127,17 @@ public class EntropyBeam extends Projectile{
         move(startX,startY);
         return super.tick();
     }
+    /**
+     *  method that gets if the beam is active
+     * @return boolean if the beam is active
+     */
     public boolean isActive(){
         return active;
     }
-
+    /**
+     *  method that hits all nearby entities
+     * @return whether the beam should be deleted
+     */
     @Override
     public boolean registerHit() {
         if(!active){

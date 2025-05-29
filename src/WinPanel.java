@@ -10,12 +10,20 @@ public class WinPanel extends GamePanel{
     private Image cutsceneImage;
     private int score;
     private boolean fadeOut = false;
+    /**
+     *  constructor method for the WinPanel
+     * @param gameManager the current gameManager
+     * @param jFrame the current jFrame
+     */
     public WinPanel(GameManager gameManager, JFrame jFrame) {
         super(gameManager, jFrame);
         loadImages();
         transitionTimer = 20;
 
     }
+    /**
+     *  method that loads all the images
+     */
     //loads all the images
     private void loadImages(){
         try{
@@ -25,15 +33,28 @@ public class WinPanel extends GamePanel{
             System.out.println("Loading cutscene failed");
         }
     }
+    /**
+     *  method that sets the displayed score
+     * @param score the score to display
+     */
     /*sets the displayed score*/
     public void setScore(int score){
         this.score = score;
     }
+    /**
+     *  method that runs on click
+     * @param x x location of the mouse
+     * @param y y location of the mouse
+     */
     //ends the cutscene when the player clicks
     @Override
     public void click(int x, int y) {
         fadeOut = true;
     }
+    /**
+     *  method that runs every frame
+     * @param keys arraylist of all keys that are pressed
+     */
     //runs every game tick
     @Override
     public void update(ArrayList<Integer> keys) {
@@ -51,6 +72,10 @@ public class WinPanel extends GamePanel{
 
         }
     }
+    /**
+     *  method that runs every frame and displays graphics
+     * @param g graphics
+     */
     //draws the graphics
     public void paintComponent(Graphics g){
         g.drawImage(cutsceneImage, 0, 0, null);
