@@ -6,6 +6,15 @@ import java.util.ArrayList;
 public class Debris extends Projectile{
     private String DEBRIS_IMAGE_PATH = "images/arena/debris.png";
     private Image debrisImage;
+    /**
+     *  constructor for the Debris class
+     * @param xLocation x location of debris
+     * @param yLocation y location of debris
+     * @param width width of debris
+     * @param height height of debris
+     * @param direction direction debris travels
+     *
+     */
     public Debris(double xLocation, double yLocation, int width, int height,double direction) {
         super(xLocation, yLocation, (0.4+Math.random()*0.4)/SCALE, width, height, 2, 10, (int)(Math.random()*20)+30);
         loadImages();
@@ -26,25 +35,44 @@ public class Debris extends Projectile{
         }
 
     }
+    /**
+     *  method that loads all the images
+     */
     //loads images
     public void loadImages(){
         try {
             debrisImage = ImageIO.read(ArenaPanel.class.getResource(DEBRIS_IMAGE_PATH)).getScaledInstance((int)(getWidth()*1.2), (int)(getHeight()*1.2), Image.SCALE_SMOOTH);
         } catch (IOException e) { debrisImage = null; }
     }
+    /**
+     *  method that gets the image of the debris
+     * @return the current image
+     */
     //returns image
     public Image getDebrisImage(){
         return debrisImage;
     }
+    /**
+     *  method that gets the x location of the image
+     * @return x of image
+     */
     //returns the X location the image should be at
     public int getImageX(){
         return (int)getXCenter()-(int)((getWidth()*1.2)/2);
     }
+    /**
+     *  method that gets the y location of the image
+     * @return y of image
+     */
     //returns the Y location image should be at
     public int getImageY(){
         return (int)getYCenter()-(int)((getHeight()*1.2)/2);
     }
     //runs every frame
+    /**
+     *  method that runs every frame
+     * @return whether the debris was deleted
+     */
     public boolean tick(){
         //handles bouncing off of walls
         if(getX() > (double)TitleScreen.WIDTH/SCALE-getWidth()-42d/SCALE){
@@ -67,6 +95,10 @@ public class Debris extends Projectile{
         return super.tick();
     }
     //handles damaging and colliding with players
+    /**
+     *  method that handles debris collision with players
+     * @return whether the debris is deleted
+     */
     @Override
     public boolean registerHit() {
         ArrayList<Entity> nearbyEntities = checkHitboxes();

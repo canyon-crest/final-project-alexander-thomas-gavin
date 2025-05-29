@@ -28,6 +28,11 @@ public class ArenaPanel extends GamePanel {
     private boolean ending;
     private int endingType;
     private int score;
+    /**
+     *  constructor for an ArenaPanel
+     * @param manager the current GameManager
+     * @param frame the current jFrame
+     */
     public ArenaPanel(GameManager manager, JFrame frame){
         super(manager, frame);
         setBackground(Color.cyan);
@@ -47,12 +52,18 @@ public class ArenaPanel extends GamePanel {
 
 
     }
+    /**
+     *  restarts the game back to the menu screen
+     */
     public void restart() {
         //called when the player leaves the arena panel
     	ending = true;
     	transitionTimer = 30;
 
     }
+    /**
+     *  reduces the player's score
+     */
     //reduces score by an amount
     public void reduceScore(){
         score -= 800;
@@ -60,6 +71,11 @@ public class ArenaPanel extends GamePanel {
             score = 0;
         }
     }
+    /**
+     *  runs on a player's click
+     * @param x the mouse x location
+     * @param y the mouse y location
+     */
     @Override
     public void click(int x, int y) {
         //called when a player clicks
@@ -74,7 +90,9 @@ public class ArenaPanel extends GamePanel {
 	    	}
     	}
     }
-    
+    /**
+     *  loads all the images
+     */
     private void loadImages(){
         //load images for ArenaPanel
     	try{
@@ -97,7 +115,10 @@ public class ArenaPanel extends GamePanel {
         }
     }
 
-    //called every frame
+    /**
+     *  the method that is called every frame
+     * @param keys arraylist of all keys that are pressed
+     */
     @Override
     public void update(ArrayList<Integer> keys) {
         if(score >= 0){
@@ -234,6 +255,10 @@ public class ArenaPanel extends GamePanel {
     	}
 
     }
+    /**
+     *  draws the graphics
+     * @param g graphics
+     */
     //draws graphics
     public void paintComponent(Graphics g){
         //draws background

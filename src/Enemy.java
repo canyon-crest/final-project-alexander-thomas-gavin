@@ -25,7 +25,16 @@ public class Enemy extends Character{
     private String BOSS_IMAGE_PATH = "images/arena/boss.png";
     private Image bossImage;
     private boolean hide;
-
+    /**
+     *  constructor method for the enemy class
+     * @param xLocation the x location of the boss
+     * @param yLocation the y location of the boss
+     * @param friction the friction of the boss
+     * @param width the width of the boss
+     * @param height the height of the boss
+     * @param health the current health of the boss
+     * @param mortalEnemy the player the boss targets
+     */
     public Enemy(double xLocation, double yLocation, double friction, int width, int height, int health, Entity mortalEnemy) {
         super(xLocation, yLocation, friction, width, height, health);
         this.mortalEnemy = mortalEnemy;
@@ -34,28 +43,51 @@ public class Enemy extends Character{
         hide = false;
 
     }
+    /**
+     *  method that loads all the images
+     */
     //loads the images
     public void loadImages(){
         try {
             bossImage = ImageIO.read(ArenaPanel.class.getResource(BOSS_IMAGE_PATH)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);
         } catch (IOException e) { bossImage = null; }
     }
+    /**
+     *  method gets the current image of the boss
+     * @return current image of the boss
+     */
     public Image getBossImage(){
         return bossImage;
     }
+    /**
+     *  method that gets the X location of the image
+     * @return x of the image
+     */
     //returns the X location image should be
     public int getImageX(){
         return (int)getXCenter()-W/(SCALE*2);
     }
+    /**
+     *  method that gets the Y location of the image
+     * @return y of the image
+     */
     //returns Y location image should be
     public int getImageY(){
         return (int)getYCenter()-(H-30)/(SCALE*2);
     }
     //returns the amount of shield the enemy has
+    /**
+     *  method gets the shield of the boss
+     * @return amount of shield
+     */
     public int getShield(){
         return shield;
     }
     //handles the boss taking damage by either losing health or losing shield
+    /**
+     *  method that handles taking damage/shield
+     * @param amount amount of damage
+     */
     public void takeDamage(int amount){
         if(shield <= 0 || amount < 0){
             super.takeDamage(amount);
@@ -69,11 +101,19 @@ public class Enemy extends Character{
             }
         }
     }
+    /**
+     *  method that decides if the boss image should be hidden or not
+     * @return boolean representing if the boss image should be hidden
+     */
     //gets whether the image should be hidden
     public boolean isHidden(){
         return hide;
     }
     //runs every frame
+    /**
+     *  method that runs every frame
+     * @return whether the boss was deleted or not
+     */
     public boolean tick(){
     	dashChance = 0.02-0.02*((getMaxHealth()-getHealth())/(double)getMaxHealth());
     	entropyChance = 0.01+0.02*((getMaxHealth()-getHealth())/(double)getMaxHealth());
@@ -202,6 +242,9 @@ public class Enemy extends Character{
         return false;
     }
     //starts the dash ability
+    /**
+     *  method starts the boss's dash ability
+     */
     public void initiateDash(){
         dashX = Math.random()*(TitleScreen.WIDTH-84)/SCALE+(double)42/SCALE;
         dashY = Math.random()*(TitleScreen.HEIGHT-230)/SCALE+120d/SCALE;
@@ -214,6 +257,9 @@ public class Enemy extends Character{
         }
         noAction = 35;
     }
+    /**
+     *  method that starts a boss's dash ability
+     */
     //starts a different dash ability toward the player
     public void initiateDash2(){
         dashX = mortalEnemy.getXCenter();
@@ -224,6 +270,9 @@ public class Enemy extends Character{
         cooldown = 50;
         noAction = 35;
     }
+    /**
+     *  method that starts the boss's slam ability
+     */
     //starts the slam ability
     public void initiateSlam() {
     	Slam s = new Slam(getXCenter(),getYCenter(),300/SCALE);
@@ -240,6 +289,9 @@ public class Enemy extends Character{
         }
 
     }
+    /**
+     *  method that starts the boss's entropy beam ability
+     */
     //starts the entropy beam ability
     public void initiateEntropy(){
         double angleDiff = 0;
@@ -268,6 +320,9 @@ public class Enemy extends Character{
         	noAction = 60;
         }
     }
+    /**
+     *  method that starts the boss's shield ability
+     */
     //starts the shield ability
     public void initiateShield(){
         shield += getMaxHealth()/4;

@@ -13,6 +13,9 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	private int highestScore;
 	private Timer timer;
 	private ArrayList<Integer> keysPressed;
+	/**
+	 *  constructor for game manager
+	 */
 	public void startGame() {
 
 		frame = new TitleScreen();
@@ -33,20 +36,29 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 
 	}
 
-
+	/**
+	 *  gets when an action is performed
+	 * @param e action event
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		current.tick(keysPressed);
 
 
 	}
-
+	/**
+	 *  method that gets when a key is typed
+	 * @param e action event
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 
 
 	}
-
+	/**
+	 *  method that gets when a key is pressed
+	 * @param e action event
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		for(int i = 0; i < keysPressed.size(); i++){
@@ -58,7 +70,10 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		keysPressed.add(e.getKeyCode());
 
 	}
-
+	/**
+	 *  method that gets when a key is released
+	 * @param e action event
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		for(int i = 0; i < keysPressed.size(); i++){
@@ -68,31 +83,50 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		}
 
 	}
-
+	/**
+	 *  method that gets when the mouse is clicked
+	 * @param e mouse event
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
 	}
-
+	/**
+	 *  method that gets when the mouse is pressed
+	 * @param e mouse event
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		current.click(e.getX(),e.getY());
 	}
-
+	/**
+	 *  method that gets when the mouse is released
+	 * @param e mouse event
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
 	}
+	/**
+	 *  method that gets when the mouse enters
+	 * @param e mouse event
+	 */
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 
 	}
-
+	/**
+	 *  method that gets when the mouse exits
+	 * @param e mouse event
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 
 	}
+	/**
+	 *  method that runs when the game returns to menu
+	 */
 	//runs when arena panel goes back to main panel
 	public void returnToMain() {
 		frame.remove(current);
@@ -107,6 +141,9 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		current.requestFocusInWindow();
 		title.fadeIn();
 	}
+	/**
+	 *  method that runs when the intro starts
+	 */
 	//runs when the main screen transitions to the cutscene
 	public void startIntro(){
 		frame.remove(current);
@@ -118,6 +155,9 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		frame.revalidate();
 		current.requestFocusInWindow();
 	}
+	/**
+	 *  method that runs after a win
+	 */
 	//runs after a win
 	public void arenaToWin(int score){
 		highestScore = Math.max(score,highestScore);
@@ -132,6 +172,9 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		frame.revalidate();
 		current.requestFocusInWindow();
 	}
+	/**
+	 *  method that runs to return from the win screen to the start screen
+	 */
 	//runs after a win cutscene
 	public void winToStart(){
 		frame.remove(current);
@@ -144,6 +187,9 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		frame.revalidate();
 		current.requestFocusInWindow();
 	}
+	/**
+	 *  method that takes you to the loss screen from the arena screen
+	 */
 	//runs after the player dies
 	public void arenaToLose(){
 		frame.remove(current);
@@ -156,6 +202,9 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		frame.revalidate();
 		current.requestFocusInWindow();
 	}
+	/**
+	 *  method that returns from the loss screen to the title screen
+	 */
 	//runs when the player presses retry
 	public void loseToTitle(){
 		frame.remove(current);
@@ -168,6 +217,9 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 		frame.revalidate();
 		current.requestFocusInWindow();
 	}
+	/**
+	 *  method that loads the arena
+	 */
 	//runs after the first cutscene
 	public void startArena(){
 		frame.remove(current);

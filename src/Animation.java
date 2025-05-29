@@ -8,6 +8,9 @@ public class Animation {
     private boolean started;
     private int timer;
     private boolean repeating;
+    /**
+     *  constructor for an animation
+    */
     public Animation(){
         images = new ArrayList<Image>();
         timing = new ArrayList<Integer>();
@@ -16,6 +19,12 @@ public class Animation {
         started = false;
         timer = 0;
     }
+    /**
+     *  constructor for an animation
+     *  @param images list of images in animation
+     *  @param timing list of timings of each frame
+     *  @param repeating whether the animation repeats
+     */
     public Animation(ArrayList<Image> images,ArrayList<Integer> timing,boolean repeating){
         this.images = images;
         this.timing = timing;
@@ -24,6 +33,12 @@ public class Animation {
         started = false;
         timer = 0;
     }
+    /**
+     *  constructor for an animation
+     *  @param images list of images in animation
+     *  @param times timing of each frame
+     *  @param repeating whether the animation repeats
+     */
     public Animation(ArrayList<Image> images,int times, boolean repeating){
         this.images = images;
         this.repeating = repeating;
@@ -37,36 +52,52 @@ public class Animation {
     }
 
 
-    //returns the current image
+    /**
+     *  gets the current frame
+     *  @return the image from the current frame
+     */
     public Image getCurrentImage(){
         return images.get(currentImage);
     }
 
-    //starts the animation by cycling through frames
+    /**
+     *  starts the animations
+     */
     public void startAnimation(){
         started = true;
         timer = timing.get(0);
         currentImage = 0;
     }
 
-    //returns whether the animation has started
+    /**
+     *  whether the animation has started
+     *  @return a boolean representing whether the animation started
+     */
     public boolean animationStarted(){
         return started;
     }
 
-    //adds another image to the animation
+    /**
+     *  adds an image to the images
+     *  @param image the image to add to the arraylist
+     *  @param nextTiming how many frames the image should be
+     */
     public void addImage(Image image, int nextTiming){
         images.add(image);
         timing.add(nextTiming);
     }
 
-    //stops the animation
+    /**
+     *  stops the animation
+     */
     public void stopAnimation(){
         started = false;
     }
 
 
-    //runs on every tick
+    /**
+     *  the method that runs every tick
+     */
     public void tick(){
         //cycles the animation if the animation has been started
         if(started){
