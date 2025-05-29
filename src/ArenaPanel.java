@@ -10,6 +10,7 @@ public class ArenaPanel extends GamePanel {
 	public static final int SCALE = TitleScreen.SCALE;
 	public static final int W = TitleScreen.WIDTH;
 	public static final int H = TitleScreen.HEIGHT;
+    private boolean showHitboxes = false;
 
     private Player player;
     private Enemy enemy;
@@ -26,6 +27,7 @@ public class ArenaPanel extends GamePanel {
     private int transitionTimer;
     private boolean ending;
     private int endingType;
+    private int score;
     public ArenaPanel(GameManager manager, JFrame frame){
         super(manager, frame);
         setBackground(Color.cyan);
@@ -35,11 +37,12 @@ public class ArenaPanel extends GamePanel {
         loadImages();
         prevKeys = new ArrayList<Integer>();
         prevDirection = 0;
-        player = new Player((W-60)/(2.0*SCALE),800.0/SCALE,1.2/SCALE,60/SCALE,60/SCALE,100);
-        enemy = new Enemy((W-90)/(2.0*SCALE), H/(3.0*SCALE),1.6/SCALE,90/SCALE,90/SCALE,1000,player);
+        player = new Player((W-60)/(2.0*SCALE),800.0/SCALE,1.2/SCALE,60/SCALE,60/SCALE,100,this);
+        enemy = new Enemy((W-90)/(2.0*SCALE), H/(3.0*SCALE),1.6/SCALE,100/SCALE,140/SCALE,1000,player);
         transitionTimer = 30;
         ending = false;
         endingType = 0;
+        score = 25000;
 
 
 
@@ -50,6 +53,13 @@ public class ArenaPanel extends GamePanel {
     	transitionTimer = 30;
 
     }
+    //reduces score by an amount
+    public void reduceScore(){
+        score -= 800;
+        if(score < 0){
+            score = 0;
+        }
+    }
     @Override
     public void click(int x, int y) {
         //called when a player clicks
@@ -57,7 +67,7 @@ public class ArenaPanel extends GamePanel {
     	
 	    	if(prevDirection % (Math.PI/2d) < 0.1) {
 	    		
-	    		player.swordAttack(prevDirection,(int)(player.getWidth()+Math.abs(player.getWidth()*Math.cos(prevDirection))/3+Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()+Math.abs(player.getWidth()*Math.sin(prevDirection))/3+Math.abs(player.getWidth()*Math.cos(prevDirection))));
+	    		player.swordAttack(prevDirection,(int)(player.getWidth()+Math.abs(player.getWidth()*Math.cos(prevDirection))/3+1.5*Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()+Math.abs(player.getWidth()*Math.sin(prevDirection))/3+1.5*Math.abs(player.getWidth()*Math.cos(prevDirection))));
 	    	}
 	    	else {
 	    		player.swordAttack(prevDirection,(int)(player.getWidth()+Math.abs(player.getWidth()*Math.sin(prevDirection))),(int)(player.getHeight()+Math.abs(player.getWidth()*Math.cos(prevDirection))));
@@ -90,6 +100,12 @@ public class ArenaPanel extends GamePanel {
     //called every frame
     @Override
     public void update(ArrayList<Integer> keys) {
+        if(score >= 0){
+            score--;
+        }
+        else{
+            score = 0;
+        }
 
     	if(transitionTimer <= 0) {
             if(enemy.getHealth() <= 0){
@@ -115,12 +131,17 @@ public class ArenaPanel extends GamePanel {
 	        boolean space = false;
 	        boolean prevSpace = false;
 	        double direction = prevDirection;
+            boolean pButtonPressed = false;
+            boolean prevP = false;
 		//checks which buttons the player is pressing
 	        for(int i: keys){
+
 	        	if(i == KeyEvent.VK_ESCAPE) {
 	        		restart();
 	        	}
-	            
+	            if(i == KeyEvent.VK_P){
+                    pButtonPressed = true;
+                }
 	            if(i == KeyEvent.VK_UP || i == KeyEvent.VK_W){
 	                up = true;
 	            }
@@ -146,6 +167,9 @@ public class ArenaPanel extends GamePanel {
 	                prevSpace = true;
 	
 	            }
+                if(i == KeyEvent.VK_P){
+                    prevP = true;
+                }
 	        }
 	        //moving directions
 	        if(up){
@@ -183,6 +207,10 @@ public class ArenaPanel extends GamePanel {
 	        if(space && !prevSpace){
 	            player.dash(direction,26/SCALE);
 	        }
+            //hitbox toggle
+            if(pButtonPressed && !prevP){
+                showHitboxes = !showHitboxes;
+            }
 	        player.setCurrentDirection(direction);
 	        prevDirection = direction;
 	
@@ -197,7 +225,7 @@ public class ArenaPanel extends GamePanel {
                     getGameManager().returnToMain();
                 }
                 else if(endingType == 1){
-                    getGameManager().arenaToWin(0);
+                    getGameManager().arenaToWin(score);
                 }
                 else if(endingType == 2){
                     getGameManager().arenaToLose();
@@ -214,6 +242,9 @@ public class ArenaPanel extends GamePanel {
         g.drawImage(background, 0, 0, null);
         g.drawImage(topwall, 0, 0, null);
         g.drawImage(player.getImage(), (int) player.getImageX(), (int) player.getImageY(), null);
+        if(!enemy.isHidden()) {
+            g.drawImage(enemy.getBossImage(), enemy.getImageX(), enemy.getImageY(), null);
+        }
         //draws hitboxes
         for(Entity e: Entity.getAllEntities()) {
             g.setColor(e.getColor());
@@ -234,7 +265,20 @@ public class ArenaPanel extends GamePanel {
             	g.drawOval((int)e.getX()-e.getWidth()/2, (int)e.getY()-e.getWidth()/2, e.getWidth(), e.getWidth());
             }
            
-            else {
+            else if(e instanceof Player || e instanceof Enemy||e instanceof Slash){
+                if(showHitboxes) {
+                    g.drawRect((int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight());
+                }
+            }
+            else if(e instanceof Debris){
+                Debris debris = (Debris)e;
+                g.drawImage(debris.getDebrisImage(), debris.getImageX(), debris.getImageY(), null);
+                if(showHitboxes) {
+                    g.drawRect((int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight());
+                }
+
+            }
+            else{
                 g.drawRect((int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight());
             }
         }

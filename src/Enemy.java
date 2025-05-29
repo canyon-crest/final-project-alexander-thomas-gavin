@@ -1,7 +1,11 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Enemy extends Character{
+    public static final int W = 300;
+    public static final int H = 300;
 
     private Entity mortalEnemy;
     private int cooldown = 60;
@@ -17,12 +21,35 @@ public class Enemy extends Character{
     private int shield = 0;
     private double nextShield = 0.5;
     private boolean enraged = false;
-    
+
+    private String BOSS_IMAGE_PATH = "images/arena/boss.png";
+    private Image bossImage;
+    private boolean hide;
 
     public Enemy(double xLocation, double yLocation, double friction, int width, int height, int health, Entity mortalEnemy) {
         super(xLocation, yLocation, friction, width, height, health);
         this.mortalEnemy = mortalEnemy;
+        loadImages();
         setColor(Color.YELLOW);
+        hide = false;
+
+    }
+    //loads the images
+    public void loadImages(){
+        try {
+            bossImage = ImageIO.read(ArenaPanel.class.getResource(BOSS_IMAGE_PATH)).getScaledInstance(W/SCALE, H/SCALE, Image.SCALE_SMOOTH);
+        } catch (IOException e) { bossImage = null; }
+    }
+    public Image getBossImage(){
+        return bossImage;
+    }
+    //returns the X location image should be
+    public int getImageX(){
+        return (int)getXCenter()-W/(SCALE*2);
+    }
+    //returns Y location image should be
+    public int getImageY(){
+        return (int)getYCenter()-(H-30)/(SCALE*2);
     }
     //returns the amount of shield the enemy has
     public int getShield(){
@@ -32,13 +59,19 @@ public class Enemy extends Character{
     public void takeDamage(int amount){
         if(shield <= 0 || amount < 0){
             super.takeDamage(amount);
+            hide = true;
         }
         else{
             shield -= amount;
             if(shield < 0){
                 shield = 0;
+                hide = true;
             }
         }
+    }
+    //gets whether the image should be hidden
+    public boolean isHidden(){
+        return hide;
     }
     //runs every frame
     public boolean tick(){
@@ -162,6 +195,9 @@ public class Enemy extends Character{
                     }
                 }
             }
+        }
+        if(hide){
+            hide = false;
         }
         return false;
     }

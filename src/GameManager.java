@@ -97,6 +97,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	public void returnToMain() {
 		frame.remove(current);
 		current = title;
+		title.setScore(highestScore);
 		Entity.clearEntities();
 		arena = new ArenaPanel(this,frame);
 		frame.add(current);
@@ -110,6 +111,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	public void startIntro(){
 		frame.remove(current);
 		title = new TitlePanel(this,frame);
+		title.setScore(highestScore);
 		current = intro;
 		frame.add(current);
 		frame.repaint();
@@ -119,10 +121,11 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	//runs after a win
 	public void arenaToWin(int score){
 		highestScore = Math.max(score,highestScore);
+		title.setScore(highestScore);
 		frame.remove(current);
 		Entity.clearEntities();
 		arena = new ArenaPanel(this, frame);
-		intro.setScore(score);
+		win.setScore(score);
 		current = win;
 		frame.add(current);
 		frame.repaint();
@@ -132,6 +135,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	//runs after a win cutscene
 	public void winToStart(){
 		frame.remove(current);
+		title.setScore(highestScore);
 		win = new WinPanel(this, frame);
 		current = title;
 		frame.add(current);
@@ -143,6 +147,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	//runs after the player dies
 	public void arenaToLose(){
 		frame.remove(current);
+		title.setScore(highestScore);
 		Entity.clearEntities();
 		arena = new ArenaPanel(this, frame);
 		current = death;
@@ -154,6 +159,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	//runs when the player presses retry
 	public void loseToTitle(){
 		frame.remove(current);
+		title.setScore(highestScore);
 		death = new DeathCutscenePanel(this, frame);
 		current = title;
 		frame.add(current);
@@ -165,6 +171,7 @@ public class GameManager implements ActionListener, KeyListener, MouseListener {
 	//runs after the first cutscene
 	public void startArena(){
 		frame.remove(current);
+		title.setScore(highestScore);
 		intro = new IntroCutscenePanel(this,frame);
 		current = arena;
 		frame.add(current);

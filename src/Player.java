@@ -8,7 +8,7 @@ public class Player extends Character{
 	public static final int SCALE = TitleScreen.SCALE;
 	public static final int W = 288;
 	public static final int H = 288;
-	
+	private ArenaPanel panel;
 	private int dashCooldown = 0;
 	private int swordCooldown = 0;
 	private int iFrames = 0;
@@ -103,10 +103,11 @@ public class Player extends Character{
 	
 	private int hurt = 0;
 	private int regen = 60;
-	public Player(double xLocation, double yLocation, double friction, int width, int height, int health) {
+	public Player(double xLocation, double yLocation, double friction, int width, int height, int health,ArenaPanel panel) {
 		super(xLocation, yLocation, friction, width, height, health);
 		loadImages();
 		createAnimations();
+		this.panel = panel;
 
 	}
 	private void createAnimations(){
@@ -269,6 +270,7 @@ public class Player extends Character{
 	public void takeDamage(int amount){
 		if(iFrames == 0) {
 			super.takeDamage(amount);
+			panel.reduceScore();
 		}
 	}
 
@@ -415,9 +417,11 @@ public class Player extends Character{
 		//starts at pi/8 with pi/4 intervals for each direction
 		
 	}
+	//returns the X location image should be
 	public int getImageX(){
 		return (int)getXCenter()-W/(SCALE*2);
 	}
+	//returns Y location image should be
 	public int getImageY(){
 		return (int)getYCenter()-H/(SCALE*2);
 	}

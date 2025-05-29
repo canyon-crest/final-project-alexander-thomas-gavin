@@ -9,7 +9,7 @@ public class IntroCutscenePanel extends GamePanel{
     final String CUTSCENE_IMAGE_PATH = "images/cutscenes/introCutscene.png";
     private Image cutsceneImage;
     private boolean fadeOut = false;
-    private int score;
+
     public IntroCutscenePanel(GameManager gameManager, JFrame jFrame) {
         super(gameManager, jFrame);
         loadImages();
@@ -25,9 +25,7 @@ public class IntroCutscenePanel extends GamePanel{
             System.out.println("Loading cutscene failed");
         }
     }
-    public void setScore(int score){
-        this.score = score;
-    }
+
     //ends the cutscene when the player clicks
     @Override
     public void click(int x, int y) {

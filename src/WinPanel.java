@@ -8,6 +8,7 @@ public class WinPanel extends GamePanel{
     private int transitionTimer;
     final String CUTSCENE_IMAGE_PATH = "images/cutscenes/victoryCutscene.png";
     private Image cutsceneImage;
+    private int score;
     private boolean fadeOut = false;
     public WinPanel(GameManager gameManager, JFrame jFrame) {
         super(gameManager, jFrame);
@@ -23,6 +24,10 @@ public class WinPanel extends GamePanel{
         catch(IOException e) {
             System.out.println("Loading cutscene failed");
         }
+    }
+    /*sets the displayed score*/
+    public void setScore(int score){
+        this.score = score;
     }
     //ends the cutscene when the player clicks
     @Override
@@ -49,6 +54,9 @@ public class WinPanel extends GamePanel{
     //draws the graphics
     public void paintComponent(Graphics g){
         g.drawImage(cutsceneImage, 0, 0, null);
+        g.setColor(new Color(255,255,255));
+        g.setFont(new Font("Font",Font.PLAIN,80/TitleScreen.SCALE));
+        g.drawString(score+"",625/TitleScreen.SCALE,469/TitleScreen.SCALE);
         g.setColor(new Color(0,0,0,(transitionTimer*255)/20));
         g.fillRect(0,0,TitleScreen.WIDTH/TitleScreen.SCALE,TitleScreen.HEIGHT/TitleScreen.SCALE);
 

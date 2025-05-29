@@ -32,6 +32,7 @@ public class TitlePanel extends GamePanel {
     private double oscilation;
     private boolean transitioning;
     private int transitionTimer;
+    private int score;
 
     public TitlePanel(GameManager manager, JFrame frame){
         super(manager, frame);
@@ -49,10 +50,14 @@ public class TitlePanel extends GamePanel {
         starY = 0;
         transitionTimer = 0;
         oscilation = 0;
+        score = 0;
 
         setBackground(Color.cyan);
 
 
+    }
+    public void setScore(int score){
+        this.score = score;
     }
     private void loadImages(){
         try{
@@ -61,12 +66,7 @@ public class TitlePanel extends GamePanel {
         catch(IOException e) {
             System.out.println("Loading background failed");
         }
-//        try{
-//            stars = ImageIO.read(TitlePanel.class.getResource(STARS_IMAGE_PATH));
-//        }
-//        catch(IOException e) {
-//            System.out.println("Loading stars failed");
-//        }
+
         try{
             stars1 = ImageIO.read(TitlePanel.class.getResource(STARS1_IMAGE_PATH)).getScaledInstance(W/SCALE,H/SCALE,Image.SCALE_SMOOTH);
         }
@@ -118,9 +118,12 @@ public class TitlePanel extends GamePanel {
     }
     
     public void update(ArrayList<Integer> keys){
-//    	Point loc = MouseInfo.getPointerInfo().getLocation();
-//        Point loc2 = this.getLocationOnScreen();
-//        Point location = new Point((int)(loc.getX()-loc2.getX()),(int)(loc.getY()-loc2.getY()));
+        for(int i: keys){
+            if(i == KeyEvent.VK_ESCAPE){
+                System.exit(0);
+            }
+
+        }
     	
     	Point location = this.getMousePosition();
     	if(location == null) {
@@ -165,6 +168,9 @@ public class TitlePanel extends GamePanel {
         g.drawImage(stars3, (int)(starX*2.2), (int)(starY*2.2), null);
         g.drawImage(title,titleX,titleY,null);
         g.drawImage(start.getImage(),0,0,null);
+        g.setColor(new Color(255,255,255));
+        g.setFont(new Font("Font",Font.PLAIN,80/SCALE));
+        g.drawString(score+"",1172/SCALE,738/SCALE);
         if(transitioning) {
         	g.setColor(new Color(0,0,0,(30-transitionTimer)*255/30));
         	g.fillRect(0, 0, TitleScreen.WIDTH/SCALE, TitleScreen.HEIGHT/SCALE);
